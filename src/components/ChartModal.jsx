@@ -4,8 +4,13 @@ import { useState } from 'react'
 const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
   const [loading, setLoading] = useState(true)
 
+  const COIN_NAME_MAP = {
+    币安人生: 'BIANRENSHENG',
+    我踏马来了: 'WOTAMALAILIAO',
+  }
+
   const normalizeCoinName = (coin) => {
-    return coin === '币安人生' ? 'BIANRENSHENG' : coin
+    return COIN_NAME_MAP[coin] ?? coin
   }
 
   const handleOpenChange = (open) => {
