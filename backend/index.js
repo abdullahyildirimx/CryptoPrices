@@ -1,8 +1,12 @@
 'use strict'
 import express from 'express'
 import { Buffer } from 'buffer'
+import fs from 'fs/promises'
 
 const app = express()
+
+const SPOT_FILE = './spotactivity.json'
+const FUTURES_FILE = './futuresactivity.json'
 
 let spotPriceData = []
 let spotActivityData = []
@@ -23,7 +27,32 @@ const bigcoinTriggerLow = 0.99
 const bigcoinTriggerHigh = 1.01
 const altcoinTriggerLow = 0.97
 const altcoinTriggerHigh = 1.03
-const bigCoinList = ['BTC', 'ETH', 'USDT']
+const bigCoinList = ['BTC', 'ETH', 'USDT', 'XAU', 'XAG']
+const blacklist = ['BTTC']
+
+const loadActivityData = async () => {
+  try {
+    const spot = await fs.readFile(SPOT_FILE, 'utf8')
+    spotActivityData = JSON.parse(spot)
+  } catch {
+    spotActivityData = []
+  }
+
+  try {
+    const futures = await fs.readFile(FUTURES_FILE, 'utf8')
+    futuresActivityData = JSON.parse(futures)
+  } catch {
+    futuresActivityData = []
+  }
+}
+
+const saveSpotData = async () => {
+  await fs.writeFile(SPOT_FILE, JSON.stringify(spotActivityData, null, 2))
+}
+
+const saveFuturesData = async () => {
+  await fs.writeFile(FUTURES_FILE, JSON.stringify(futuresActivityData, null, 2))
+}
 
 const fetchSpotCoinList = async () => {
   try {
@@ -51,6 +80,7 @@ const fetchSpotCoinList = async () => {
         return symbol
       })
       .slice()
+      .filter((symbol) => !blacklist.includes(symbol))
       .sort((a, b) => {
         return a.localeCompare(b)
       })
@@ -174,6 +204,7 @@ const fetchSpotMarketActivity = async () => {
     })
     if (resultArray.length > 0) {
       spotActivityData = [...resultArray, ...spotActivityData]
+      await saveSpotData()
     }
     spotPriceData = newPriceData
   } catch (error) {
@@ -245,6 +276,7 @@ const fetchFuturesMarketActivity = async () => {
     })
     if (resultArray.length > 0) {
       futuresActivityData = [...resultArray, ...futuresActivityData]
+      await saveFuturesData()
     }
     futuresPriceData = newPriceData
   } catch (error) {
@@ -257,11 +289,14 @@ const purgeData = () => {
   spotActivityData = spotActivityData.filter((activity) => {
     return activity.time > currentTime - purgeDelta
   })
+  saveSpotData()
   futuresActivityData = futuresActivityData.filter((activity) => {
     return activity.time > currentTime - purgeDelta
   })
+  saveFuturesData()
 }
 
+await loadActivityData()
 fetchSpotCoinList()
 fetchFuturesCoinList()
 setInterval(fetchSpotCoinList, coinListDelta)
