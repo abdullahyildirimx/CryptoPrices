@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import ChartModal from './ChartModal'
+import { useState } from 'react';
+import ChartModal from './ChartModal';
 
 const MarketActivity = ({ activity, isSpot }) => {
-  const [selectedCoin, setSelectedCoin] = useState(null)
-  const [isOpen, setIsOpen] = useState(false)
+  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenChart = (symbol) => {
-    setSelectedCoin(symbol)
-    setIsOpen(true)
-  }
+    setSelectedCoin(symbol);
+    setIsOpen(true);
+  };
 
   const handleCloseChart = () => {
-    setIsOpen(false)
-    setSelectedCoin(null)
-  }
+    setIsOpen(false);
+    setSelectedCoin(null);
+  };
 
   return (
     <>
@@ -31,7 +31,7 @@ const MarketActivity = ({ activity, isSpot }) => {
               width={30}
               height={30}
               onError={(e) => {
-                e.target.src = '/genericicon.png'
+                e.target.src = '/genericicon.png';
               }}
             />
             <div className="flex flex-col">
@@ -61,7 +61,7 @@ const MarketActivity = ({ activity, isSpot }) => {
         isSpot={isSpot}
       />
     </>
-  )
-}
+  );
+};
 
-export default MarketActivity
+export default MarketActivity;

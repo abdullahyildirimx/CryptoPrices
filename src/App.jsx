@@ -3,12 +3,12 @@ import {
   Routes,
   Route,
   Navigate,
-} from 'react-router-dom'
-import Header from './components/Header'
-import { lazy } from 'react'
+} from 'react-router-dom';
+import Header from './components/Header';
+import { lazy } from 'react';
 
-const SpotPage = lazy(() => import('./pages/SpotPage'))
-const FuturesPage = lazy(() => import('./pages/FuturesPage'))
+const SpotPage = lazy(() => import('./pages/SpotPage'));
+const FuturesPage = lazy(() => import('./pages/FuturesPage'));
 
 const App = () => {
   return (
@@ -22,7 +22,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;

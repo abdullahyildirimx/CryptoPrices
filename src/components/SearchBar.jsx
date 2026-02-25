@@ -1,18 +1,18 @@
-import { Button, Input } from '@base-ui/react'
-import { useState } from 'react'
+import { Button, Input } from '@base-ui/react';
+import { useState } from 'react';
 
 const SearchBar = ({ handleSearch, id }) => {
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (value) => {
-    setSearchTerm(value)
-    handleSearch(value)
-  }
+    setSearchTerm(value);
+    handleSearch(value);
+  };
 
   const handleClear = () => {
-    setSearchTerm('')
-    handleSearch('')
-  }
+    setSearchTerm('');
+    handleSearch('');
+  };
 
   return (
     <div className="relative">
@@ -48,7 +48,7 @@ const SearchBar = ({ handleSearch, id }) => {
         </Button>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

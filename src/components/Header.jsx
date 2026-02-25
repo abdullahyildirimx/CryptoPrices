@@ -1,7 +1,7 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <header className="grid grid-cols-4 p-16">
@@ -32,7 +32,7 @@ const Header = () => {
         </Link>
       </nav>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

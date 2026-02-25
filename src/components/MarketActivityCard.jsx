@@ -1,25 +1,25 @@
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Tooltip } from 'react-tooltip'
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Tooltip } from 'react-tooltip';
 import {
   getFuturesMarketActivityStorage,
   setFuturesMarketActivityStorage,
   getSpotMarketActivityStorage,
   setSpotMarketActivityStorage,
-} from '../utils/localStorageUtils'
-import MarketActivity from './MarketActivity'
-import { getLogoFromUrl } from '../utils/urls'
-import { Checkbox } from '@base-ui/react'
-import SearchBar from './SearchBar'
+} from '../utils/localStorageUtils';
+import MarketActivity from './MarketActivity';
+import { getLogoFromUrl } from '../utils/urls';
+import { Checkbox } from '@base-ui/react';
+import SearchBar from './SearchBar';
 
 const MarketActivityCard = ({ isSpot = false }) => {
   const localStorageActivity = isSpot
     ? getSpotMarketActivityStorage()
-    : getFuturesMarketActivityStorage()
+    : getFuturesMarketActivityStorage();
   const [showFavorites, setShowFavorites] = useState(
     localStorageActivity?.showFavorites || false,
-  )
-  const [searchedCoins, setSearchedCoins] = useState(null)
+  );
+  const [searchedCoins, setSearchedCoins] = useState(null);
   const {
     spotCoinData,
     spotMarketActivity,
@@ -27,38 +27,38 @@ const MarketActivityCard = ({ isSpot = false }) => {
     futuresCoinData,
     futuresMarketActivity,
     futuresFavoriteCoins,
-  } = useSelector((state) => state.dataStore)
-  const selectedCoinData = isSpot ? spotCoinData : futuresCoinData
+  } = useSelector((state) => state.dataStore);
+  const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
   const selectedMarketActivity = isSpot
     ? spotMarketActivity
-    : futuresMarketActivity
+    : futuresMarketActivity;
   const selectedFavoriteCoins = isSpot
     ? spotFavoriteCoins
-    : futuresFavoriteCoins
+    : futuresFavoriteCoins;
 
   const handleToggleFavorites = (newValue) => {
-    setShowFavorites(newValue)
+    setShowFavorites(newValue);
     if (isSpot) {
-      setSpotMarketActivityStorage('showFavorites', newValue)
+      setSpotMarketActivityStorage('showFavorites', newValue);
     } else {
-      setFuturesMarketActivityStorage('showFavorites', newValue)
+      setFuturesMarketActivityStorage('showFavorites', newValue);
     }
-  }
+  };
 
   const getLogo = (symbol) => {
-    const url = selectedCoinData?.find((data) => data.symbol === symbol)?.logo
-    return url ? getLogoFromUrl(url) : '/genericicon.png'
-  }
+    const url = selectedCoinData?.find((data) => data.symbol === symbol)?.logo;
+    return url ? getLogoFromUrl(url) : '/genericicon.png';
+  };
 
   const formatPrice = (symbol, price) => {
     const tickSize = selectedCoinData?.find(
       (data) => data.symbol === symbol,
-    )?.tickSize
-    return tickSize ? parseFloat(price).toFixed(tickSize) : price
-  }
+    )?.tickSize;
+    return tickSize ? parseFloat(price).toFixed(tickSize) : price;
+  };
 
   const filterActivities = () => {
-    if (!selectedMarketActivity) return []
+    if (!selectedMarketActivity) return [];
 
     const base = searchedCoins
       ? selectedMarketActivity.filter((item) =>
@@ -68,17 +68,17 @@ const MarketActivityCard = ({ isSpot = false }) => {
         ? selectedMarketActivity.filter((item) =>
             selectedFavoriteCoins.includes(item.symbol),
           )
-        : selectedMarketActivity.slice(0, 1000)
+        : selectedMarketActivity.slice(0, 1000);
     return base.map((item) => ({
       ...item,
       oldPrice: formatPrice(item.symbol, item.oldPrice),
       newPrice: formatPrice(item.symbol, item.newPrice),
       logo: getLogo(item.symbol),
-    }))
-  }
+    }));
+  };
 
   const handleSearch = (value) => {
-    if (!selectedMarketActivity) return []
+    if (!selectedMarketActivity) return [];
 
     if (value) {
       const filteredResults = Array.from(
@@ -89,14 +89,14 @@ const MarketActivityCard = ({ isSpot = false }) => {
             )
             .map((item) => item.symbol),
         ),
-      )
-      setSearchedCoins(filteredResults)
+      );
+      setSearchedCoins(filteredResults);
     } else {
-      setSearchedCoins(null)
+      setSearchedCoins(null);
     }
-  }
+  };
 
-  const activity = filterActivities()
+  const activity = filterActivities();
 
   return (
     <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
@@ -185,7 +185,7 @@ const MarketActivityCard = ({ isSpot = false }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MarketActivityCard
+export default MarketActivityCard;

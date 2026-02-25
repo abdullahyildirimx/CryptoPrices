@@ -1,48 +1,48 @@
-import { useState } from 'react'
-import { getLogoFromUrl } from '../utils/urls'
-import ChartModal from './ChartModal'
-import { Button } from '@base-ui/react'
+import { useState } from 'react';
+import { getLogoFromUrl } from '../utils/urls';
+import ChartModal from './ChartModal';
+import { Button } from '@base-ui/react';
 
 const CoinTable = ({ coins, isSpot, favoriteCoins, toggleFavorite }) => {
-  const [selectedCoin, setSelectedCoin] = useState(null)
-  const [isOpen, setIsOpen] = useState(false)
+  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleToggleFavorite = (e, symbol) => {
-    e.stopPropagation()
-    toggleFavorite(symbol)
-  }
+    e.stopPropagation();
+    toggleFavorite(symbol);
+  };
 
   const handleOpenChart = (symbol) => {
-    setSelectedCoin(symbol)
-    setIsOpen(true)
-  }
+    setSelectedCoin(symbol);
+    setIsOpen(true);
+  };
 
   const handleCloseChart = () => {
-    setIsOpen(false)
-    setSelectedCoin(null)
-  }
+    setIsOpen(false);
+    setSelectedCoin(null);
+  };
 
   const getLogo = (item) => {
-    return item?.logo ? getLogoFromUrl(item.logo) : '/genericicon.png'
-  }
+    return item?.logo ? getLogoFromUrl(item.logo) : '/genericicon.png';
+  };
 
   const formatChange = (change) => {
-    const parsedChange = parseFloat(change)
-    const formattedChange = parsedChange.toFixed(2)
-    return parsedChange < 0 ? `${formattedChange}%` : `+${formattedChange}%`
-  }
+    const parsedChange = parseFloat(change);
+    const formattedChange = parsedChange.toFixed(2);
+    return parsedChange < 0 ? `${formattedChange}%` : `+${formattedChange}%`;
+  };
 
   const formatVolume = (volume) => {
     if (volume >= 1_000_000_000) {
-      return `$${(volume / 1_000_000_000).toFixed(2)}B`
+      return `$${(volume / 1_000_000_000).toFixed(2)}B`;
     } else if (volume >= 1_000_000) {
-      return `$${(volume / 1_000_000).toFixed(2)}M`
+      return `$${(volume / 1_000_000).toFixed(2)}M`;
     } else if (volume >= 1_000) {
-      return `$${(volume / 1_000).toFixed(2)}K`
+      return `$${(volume / 1_000).toFixed(2)}K`;
     } else {
-      return `$${volume.toFixed(2)}`
+      return `$${volume.toFixed(2)}`;
     }
-  }
+  };
 
   return (
     <>
@@ -72,7 +72,7 @@ const CoinTable = ({ coins, isSpot, favoriteCoins, toggleFavorite }) => {
                 width={24}
                 height={24}
                 onError={(e) => {
-                  e.target.src = '/genericicon.png'
+                  e.target.src = '/genericicon.png';
                 }}
               />
               <div className="flex flex-col">
@@ -103,7 +103,7 @@ const CoinTable = ({ coins, isSpot, favoriteCoins, toggleFavorite }) => {
         isSpot={isSpot}
       />
     </>
-  )
-}
+  );
+};
 
-export default CoinTable
+export default CoinTable;

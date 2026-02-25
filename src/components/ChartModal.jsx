@@ -1,30 +1,30 @@
-import { Dialog } from '@base-ui/react/dialog'
-import { useState } from 'react'
+import { Dialog } from '@base-ui/react/dialog';
+import { useState } from 'react';
 
 const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const COIN_NAME_MAP = {
     币安人生: 'BIANRENSHENG',
     我踏马来了: 'WOTAMALAILIAO',
-  }
+  };
 
   const normalizeCoinName = (coin) => {
-    return COIN_NAME_MAP[coin] ?? coin
-  }
+    return COIN_NAME_MAP[coin] ?? coin;
+  };
 
   const handleOpenChange = (open) => {
-    if (!open) setLoading(true)
-    onOpenChange(open)
-  }
+    if (!open) setLoading(true);
+    onOpenChange(open);
+  };
 
-  const convertedCoin = normalizeCoinName(selectedCoin)
+  const convertedCoin = normalizeCoinName(selectedCoin);
   const symbol = convertedCoin
     ? isSpot
       ? `BINANCE:${convertedCoin.toUpperCase()}USDT`
       : `BINANCE:${convertedCoin.toUpperCase()}USDT.P`
-    : ''
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+    : '';
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={handleOpenChange}>
@@ -72,7 +72,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
-  )
-}
+  );
+};
 
-export default ChartModal
+export default ChartModal;

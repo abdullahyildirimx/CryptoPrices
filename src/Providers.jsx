@@ -1,6 +1,6 @@
-import { Provider } from 'react-redux'
-import { configureStore } from '@reduxjs/toolkit'
-import ReduxReducer from './utils/reduxStorage'
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import ReduxReducer from './utils/reduxStorage';
 
 const store = configureStore({
   reducer: {
@@ -10,10 +10,10 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-})
+});
 
 const Providers = ({ children }) => {
-  return <Provider store={store}>{children}</Provider>
-}
+  return <Provider store={store}>{children}</Provider>;
+};
 
-export default Providers
+export default Providers;

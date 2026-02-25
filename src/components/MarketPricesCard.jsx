@@ -1,130 +1,130 @@
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import SearchBar from './SearchBar'
-import CoinTable from './CoinTable'
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import SearchBar from './SearchBar';
+import CoinTable from './CoinTable';
 import {
   getFuturesCardStorage,
   setFuturesCardStorage,
   getSpotCardStorage,
   setSpotCardStorage,
-} from '../utils/localStorageUtils'
+} from '../utils/localStorageUtils';
 import {
   setSpotFavoriteCoins,
   setFuturesFavoriteCoins,
-} from '../utils/reduxStorage'
-import { Button } from '@base-ui/react'
+} from '../utils/reduxStorage';
+import { Button } from '@base-ui/react';
 
 const MarketPricesCard = ({ isSpot = false }) => {
   const localStorageData = isSpot
     ? getSpotCardStorage()
-    : getFuturesCardStorage()
+    : getFuturesCardStorage();
   const [selectedTab, setSelectedTab] = useState(
     localStorageData?.selectedTab || 'all',
-  )
-  const [sortOrder, setSortOrder] = useState('default')
-  const [searchedCoins, setSearchedCoins] = useState(null)
+  );
+  const [sortOrder, setSortOrder] = useState('default');
+  const [searchedCoins, setSearchedCoins] = useState(null);
   const {
     spotCoinData,
     spotFavoriteCoins,
     futuresCoinData,
     futuresFavoriteCoins,
-  } = useSelector((state) => state.dataStore)
-  const selectedCoinData = isSpot ? spotCoinData : futuresCoinData
+  } = useSelector((state) => state.dataStore);
+  const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
   const selectedFavoriteCoins = isSpot
     ? spotFavoriteCoins
-    : futuresFavoriteCoins
-  const dispatch = useDispatch()
+    : futuresFavoriteCoins;
+  const dispatch = useDispatch();
 
   const formatTitlePrice = (value) => {
-    const num = Number(value)
-    if (!Number.isFinite(num)) return null
+    const num = Number(value);
+    if (!Number.isFinite(num)) return null;
 
     return num.toLocaleString('en-US', {
       minimumFractionDigits: 2,
-    })
-  }
+    });
+  };
 
   const handleTabChange = (tab) => {
-    setSelectedTab(tab)
+    setSelectedTab(tab);
     if (isSpot) {
-      setSpotCardStorage('selectedTab', tab)
+      setSpotCardStorage('selectedTab', tab);
     } else {
-      setFuturesCardStorage('selectedTab', tab)
+      setFuturesCardStorage('selectedTab', tab);
     }
-  }
+  };
 
   const toggleFavorite = (symbol) => {
     if (isSpot) {
       if (spotFavoriteCoins.includes(symbol)) {
         const updatedFavorites = spotFavoriteCoins.filter(
           (coin) => coin !== symbol,
-        )
-        dispatch(setSpotFavoriteCoins(updatedFavorites))
-        setSpotCardStorage('favoriteCoins', updatedFavorites)
+        );
+        dispatch(setSpotFavoriteCoins(updatedFavorites));
+        setSpotCardStorage('favoriteCoins', updatedFavorites);
       } else {
-        const updatedFavorites = [...spotFavoriteCoins, symbol]
-        dispatch(setSpotFavoriteCoins(updatedFavorites))
-        setSpotCardStorage('favoriteCoins', updatedFavorites)
+        const updatedFavorites = [...spotFavoriteCoins, symbol];
+        dispatch(setSpotFavoriteCoins(updatedFavorites));
+        setSpotCardStorage('favoriteCoins', updatedFavorites);
       }
     } else {
       if (futuresFavoriteCoins.includes(symbol)) {
         const updatedFavorites = futuresFavoriteCoins.filter(
           (coin) => coin !== symbol,
-        )
-        dispatch(setFuturesFavoriteCoins(updatedFavorites))
-        setFuturesCardStorage('favoriteCoins', updatedFavorites)
+        );
+        dispatch(setFuturesFavoriteCoins(updatedFavorites));
+        setFuturesCardStorage('favoriteCoins', updatedFavorites);
       } else {
-        const updatedFavorites = [...futuresFavoriteCoins, symbol]
-        dispatch(setFuturesFavoriteCoins(updatedFavorites))
-        setFuturesCardStorage('favoriteCoins', updatedFavorites)
+        const updatedFavorites = [...futuresFavoriteCoins, symbol];
+        dispatch(setFuturesFavoriteCoins(updatedFavorites));
+        setFuturesCardStorage('favoriteCoins', updatedFavorites);
       }
     }
-  }
+  };
 
   const toggleSortOrder = (column) => {
-    const desc = `${column}Desc`
-    const asc = `${column}Asc`
+    const desc = `${column}Desc`;
+    const asc = `${column}Asc`;
 
     const nextOrder =
-      sortOrder === desc
-        ? asc
-        : sortOrder === asc
-          ? 'default'
-          : desc
+      sortOrder === desc ? asc : sortOrder === asc ? 'default' : desc;
 
-    setSortOrder(nextOrder)
-  }
+    setSortOrder(nextOrder);
+  };
 
   const sortedAllCoins = () => {
     if (!selectedCoinData) {
-      return []
+      return [];
     }
-    let coins
+    let coins;
     if (searchedCoins) {
       coins = searchedCoins
         .map((symbol) => {
-          return selectedCoinData.find((data) => data.symbol === symbol) || null
+          return (
+            selectedCoinData.find((data) => data.symbol === symbol) || null
+          );
         })
-        .filter((coin) => coin !== null)
+        .filter((coin) => coin !== null);
     } else if (selectedTab === 'favorite') {
       coins = selectedFavoriteCoins
         .map((symbol) => {
-          return selectedCoinData.find((data) => data.symbol === symbol) || null
+          return (
+            selectedCoinData.find((data) => data.symbol === symbol) || null
+          );
         })
-        .filter((coin) => coin !== null)
+        .filter((coin) => coin !== null);
     } else {
-      coins = selectedCoinData
+      coins = selectedCoinData;
     }
 
     return coins.slice().sort((a, b) => {
-      const symbolA = a.symbol
-      const symbolB = b.symbol
-      const changeA = parseFloat(a.change)
-      const changeB = parseFloat(b.change)
-      const priceA = parseFloat(a.price)
-      const priceB = parseFloat(b.price)
-      const volumeA = parseFloat(a.volume)
-      const volumeB = parseFloat(b.volume)
+      const symbolA = a.symbol;
+      const symbolB = b.symbol;
+      const changeA = parseFloat(a.change);
+      const changeB = parseFloat(b.change);
+      const priceA = parseFloat(a.price);
+      const priceB = parseFloat(b.price);
+      const volumeA = parseFloat(a.volume);
+      const volumeB = parseFloat(b.volume);
 
       return sortOrder === 'priceAsc'
         ? priceA - priceB
@@ -142,27 +142,27 @@ const MarketPricesCard = ({ isSpot = false }) => {
                     ? volumeA - volumeB
                     : sortOrder === 'volumeDesc'
                       ? volumeB - volumeA
-                      : volumeB - volumeA
-    })
-  }
+                      : volumeB - volumeA;
+    });
+  };
 
   const handleSearch = (value) => {
     if (!selectedCoinData) {
-      return []
+      return [];
     }
     if (value) {
       const filteredResults = selectedCoinData
         .filter((item) =>
           item.symbol.toLowerCase().includes(value.toLowerCase()),
         )
-        .map((item) => item.symbol)
-      setSearchedCoins(filteredResults)
+        .map((item) => item.symbol);
+      setSearchedCoins(filteredResults);
     } else {
-      setSearchedCoins(null)
+      setSearchedCoins(null);
     }
-  }
+  };
 
-  const coins = sortedAllCoins()
+  const coins = sortedAllCoins();
 
   return (
     <>
@@ -183,7 +183,7 @@ const MarketPricesCard = ({ isSpot = false }) => {
             <Button
               key={tab}
               onClick={() => {
-                handleTabChange(tab)
+                handleTabChange(tab);
               }}
               className={`
                 px-16 py-8 font-medium transition-all duration-150 ease-in-out
@@ -323,7 +323,7 @@ const MarketPricesCard = ({ isSpot = false }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default MarketPricesCard
+export default MarketPricesCard;
