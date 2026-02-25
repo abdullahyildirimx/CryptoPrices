@@ -117,7 +117,7 @@ const useSpotData = () => {
           .map((item) => {
             let symbol = item.symbol
             let tickSize = countDecimalPlaces(item.filters[0].tickSize)
-            let logo = null
+            let logo
 
             if (symbol !== 'USDTTRY') {
               symbol = symbol.slice(0, -'USDT'.length)

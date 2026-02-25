@@ -82,36 +82,16 @@ const MarketPricesCard = ({ isSpot = false }) => {
   }
 
   const toggleSortOrder = (column) => {
-    let nextOrder = 'default'
-    if (column === 'symbol') {
-      nextOrder =
-        sortOrder === 'symbolDesc'
-          ? 'symbolAsc'
-          : sortOrder === 'symbolAsc'
-            ? 'default'
-            : 'symbolDesc'
-    } else if (column === 'price') {
-      nextOrder =
-        sortOrder === 'priceDesc'
-          ? 'priceAsc'
-          : sortOrder === 'priceAsc'
-            ? 'default'
-            : 'priceDesc'
-    } else if (column === 'change') {
-      nextOrder =
-        sortOrder === 'changeDesc'
-          ? 'changeAsc'
-          : sortOrder === 'changeAsc'
-            ? 'default'
-            : 'changeDesc'
-    } else {
-      nextOrder =
-        sortOrder === 'volumeDesc'
-          ? 'volumeAsc'
-          : sortOrder === 'volumeAsc'
-            ? 'default'
-            : 'volumeDesc'
-    }
+    const desc = `${column}Desc`
+    const asc = `${column}Asc`
+
+    const nextOrder =
+      sortOrder === desc
+        ? asc
+        : sortOrder === asc
+          ? 'default'
+          : desc
+
     setSortOrder(nextOrder)
   }
 
@@ -119,7 +99,7 @@ const MarketPricesCard = ({ isSpot = false }) => {
     if (!selectedCoinData) {
       return []
     }
-    let coins = []
+    let coins
     if (searchedCoins) {
       coins = searchedCoins
         .map((symbol) => {
@@ -185,7 +165,7 @@ const MarketPricesCard = ({ isSpot = false }) => {
   const coins = sortedAllCoins()
 
   return (
-    <div className="p-8">
+    <>
       <title>
         {selectedCoinData
           ? `${formatTitlePrice(selectedCoinData?.find((item) => item.symbol === 'BTC')?.price)} | CryptoPrices`
@@ -342,7 +322,7 @@ const MarketPricesCard = ({ isSpot = false }) => {
           )}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

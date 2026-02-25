@@ -114,7 +114,7 @@ const useFuturesData = () => {
           .map((item) => {
             const symbol = item.symbol.slice(0, -'USDT'.length)
             let tickSize = countDecimalPlaces(item.filters[0].tickSize)
-            let logo = null
+            let logo
             logo = logoData.find((coin) => coin?.asset === symbol)?.logo
             return {
               symbol: symbol,

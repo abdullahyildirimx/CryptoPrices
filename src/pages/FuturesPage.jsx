@@ -8,7 +8,7 @@ const FuturesPage = () => {
   useFuturesMarketActivity()
 
   return (
-    <main className="p-8 grid grid-cols-1 md:grid-cols-2">
+    <main className="p-16 grid grid-cols-1 md:grid-cols-2 gap-16">
       <MarketPricesCard />
       <MarketActivityCard />
     </main>
