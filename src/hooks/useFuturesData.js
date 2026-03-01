@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import {
   setFuturesCoinData,
   setFuturesCoinMetadata,
@@ -93,18 +94,11 @@ const useFuturesData = () => {
 
     const fetchCoinMetadata = async () => {
       try {
-        const response = await fetch(futuresExchangeInfoUrl);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const jsonData = await response.json();
+        const response = await axios.get(futuresExchangeInfoUrl);
+        const jsonData = response.data;
 
-        const response2 = await fetch(coinLogosUrl);
-        if (!response2.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const jsonData2 = await response2.json();
-        const logoData = jsonData2.data;
+        const response2 = await axios.get(coinLogosUrl);
+        const logoData = response2.data?.data;
 
         const filteredCoins = jsonData.symbols.filter((coin) => {
           return coin.symbol.endsWith('USDT') && coin.status === 'TRADING';

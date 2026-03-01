@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { setSpotMarketActivity } from '../utils/reduxStorage';
 import { spotMarketActivityUrl } from '../utils/urls';
 
@@ -8,11 +9,8 @@ const useSpotMarketActivity = () => {
   useEffect(() => {
     const fetchMarketActivity = async () => {
       try {
-        const response = await fetch(spotMarketActivityUrl);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const jsonData = await response.json();
+        const response = await axios.get(spotMarketActivityUrl);
+        const jsonData = response.data;
         const activityList = jsonData.map((coin) => {
           const symbol = coin.symbol;
           const oldPrice = coin.oldPrice;

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { setFuturesMarketActivity } from '../utils/reduxStorage';
 import { futuresMarketActivityUrl } from '../utils/urls';
 
@@ -8,11 +9,8 @@ const useFuturesMarketActivity = () => {
   useEffect(() => {
     const fetchMarketActivity = async () => {
       try {
-        const response = await fetch(futuresMarketActivityUrl);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const jsonData = await response.json();
+        const response = await axios.get(futuresMarketActivityUrl);
+        const jsonData = response.data;
         const activityList = jsonData.map((coin) => {
           const symbol = coin.symbol;
           const oldPrice = coin.oldPrice;
