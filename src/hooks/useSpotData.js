@@ -4,7 +4,7 @@ import axios from 'axios';
 import { setSpotCoinData, setSpotCoinMetadata } from '../utils/reduxStorage';
 import { spotPriceUrl, spotExchangeInfoUrl, coinLogosUrl } from '../utils/urls';
 
-const useSpotData = () => {
+const useSpotData = (enabled) => {
   const { spotCoinMetadata } = useSelector((state) => state.dataStore);
   const [coinMetadata, setCoinMetadata] = useState(spotCoinMetadata || null);
   const dispatch = useDispatch();
@@ -25,6 +25,8 @@ const useSpotData = () => {
   };
 
   useEffect(() => {
+    if (!enabled) return;
+
     const fetchPriceData = async () => {
       try {
         const response = await axios.get(spotPriceUrl);
@@ -85,10 +87,10 @@ const useSpotData = () => {
     fetchPriceData();
     const intervalId = setInterval(fetchPriceData, 5000);
     return () => clearInterval(intervalId);
-  }, [coinMetadata, dispatch]);
+  }, [coinMetadata, enabled, dispatch]);
 
   useEffect(() => {
-    if (spotCoinMetadata) return;
+    if (!enabled || spotCoinMetadata) return;
 
     const fetchCoinMetadata = async () => {
       try {
@@ -141,7 +143,7 @@ const useSpotData = () => {
     };
 
     fetchCoinMetadata();
-  }, [spotCoinMetadata, dispatch]);
+  }, [spotCoinMetadata, enabled, dispatch]);
 };
 
 export default useSpotData;

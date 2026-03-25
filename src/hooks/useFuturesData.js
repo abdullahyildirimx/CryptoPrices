@@ -11,7 +11,7 @@ import {
   coinLogosUrl,
 } from '../utils/urls';
 
-const useFuturesData = () => {
+const useFuturesData = (enabled) => {
   const { futuresCoinMetadata } = useSelector((state) => state.dataStore);
   const [coinMetadata, setCoinMetadata] = useState(futuresCoinMetadata || null);
   const dispatch = useDispatch();
@@ -32,6 +32,8 @@ const useFuturesData = () => {
   };
 
   useEffect(() => {
+    if (!enabled) return;
+
     const fetchPriceData = async () => {
       try {
         const response = await fetch(futuresPriceUrl);
@@ -87,10 +89,10 @@ const useFuturesData = () => {
     fetchPriceData();
     const intervalId = setInterval(fetchPriceData, 5000);
     return () => clearInterval(intervalId);
-  }, [coinMetadata, dispatch]);
+  }, [coinMetadata, enabled, dispatch]);
 
   useEffect(() => {
-    if (futuresCoinMetadata) return;
+    if (!enabled || futuresCoinMetadata) return;
 
     const fetchCoinMetadata = async () => {
       try {
@@ -129,7 +131,7 @@ const useFuturesData = () => {
     };
 
     fetchCoinMetadata();
-  }, [futuresCoinMetadata, dispatch]);
+  }, [futuresCoinMetadata, enabled, dispatch]);
 };
 
 export default useFuturesData;

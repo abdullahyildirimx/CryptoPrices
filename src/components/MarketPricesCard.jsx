@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import SearchBar from './SearchBar';
 import CoinTable from './CoinTable';
 import {
-  getFuturesCardStorage,
-  setFuturesCardStorage,
-  getSpotCardStorage,
-  setSpotCardStorage,
+  getSelectedTabStorage,
+  setSelectedTabStorage,
+  setFavoriteCoinsStorage,
 } from '../utils/localStorageUtils';
 import {
   setSpotFavoriteCoins,
@@ -14,12 +13,9 @@ import {
 } from '../utils/reduxStorage';
 import { Button } from '@base-ui/react';
 
-const MarketPricesCard = ({ isSpot = false }) => {
-  const localStorageData = isSpot
-    ? getSpotCardStorage()
-    : getFuturesCardStorage();
+const MarketPricesCard = ({ isSpot }) => {
   const [selectedTab, setSelectedTab] = useState(
-    localStorageData?.selectedTab || 'all',
+    getSelectedTabStorage() || 'all',
   );
   const [sortOrder, setSortOrder] = useState('default');
   const [searchedCoins, setSearchedCoins] = useState(null);
@@ -46,11 +42,7 @@ const MarketPricesCard = ({ isSpot = false }) => {
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
-    if (isSpot) {
-      setSpotCardStorage('selectedTab', tab);
-    } else {
-      setFuturesCardStorage('selectedTab', tab);
-    }
+    setSelectedTabStorage(tab);
   };
 
   const toggleFavorite = (symbol) => {
@@ -60,11 +52,11 @@ const MarketPricesCard = ({ isSpot = false }) => {
           (coin) => coin !== symbol,
         );
         dispatch(setSpotFavoriteCoins(updatedFavorites));
-        setSpotCardStorage('favoriteCoins', updatedFavorites);
+        setFavoriteCoinsStorage('spot', updatedFavorites);
       } else {
         const updatedFavorites = [...spotFavoriteCoins, symbol];
         dispatch(setSpotFavoriteCoins(updatedFavorites));
-        setSpotCardStorage('favoriteCoins', updatedFavorites);
+        setFavoriteCoinsStorage('spot', updatedFavorites);
       }
     } else {
       if (futuresFavoriteCoins.includes(symbol)) {
@@ -72,11 +64,11 @@ const MarketPricesCard = ({ isSpot = false }) => {
           (coin) => coin !== symbol,
         );
         dispatch(setFuturesFavoriteCoins(updatedFavorites));
-        setFuturesCardStorage('favoriteCoins', updatedFavorites);
+        setFavoriteCoinsStorage('futures', updatedFavorites);
       } else {
         const updatedFavorites = [...futuresFavoriteCoins, symbol];
         dispatch(setFuturesFavoriteCoins(updatedFavorites));
-        setFuturesCardStorage('favoriteCoins', updatedFavorites);
+        setFavoriteCoinsStorage('futures', updatedFavorites);
       }
     }
   };

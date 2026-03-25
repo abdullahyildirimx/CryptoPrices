@@ -1,7 +1,17 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Button } from '@base-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { setMarketType } from '../utils/reduxStorage';
+import { setMarketTypeStorage } from '../utils/localStorageUtils';
 
 const Header = () => {
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const { marketType } = useSelector((state) => state.dataStore);
+
+  const handleMarketChange = (type) => {
+    dispatch(setMarketType(type));
+    setMarketTypeStorage(type);
+  };
 
   return (
     <header className="grid grid-cols-4 p-16">
@@ -16,20 +26,20 @@ const Header = () => {
       </Link>
 
       <nav className="col-span-2 flex justify-center items-center gap-16">
-        <Link
-          className={`flex items-center gap-4 ${location.pathname === '/' ? 'text-white1 font-bold' : 'text-white-65 hover:text-white-80 transition-all duration-150 ease-in-out'}`}
-          to="/"
+        <Button
+          onClick={() => handleMarketChange('spot')}
+          className={`flex items-center gap-4 ${marketType === 'spot' ? 'text-white1 font-bold' : 'text-white-65 hover:text-white-80 transition-all duration-150 ease-in-out'}`}
         >
           <i className="fa-solid fa-chart-column"></i>
           Spot
-        </Link>
-        <Link
-          className={`flex items-center gap-4 ${location.pathname === '/futures' ? 'text-white1 font-bold' : 'text-white-65 hover:text-white-80 transition-all duration-150 ease-in-out'}`}
-          to="/futures"
+        </Button>
+        <Button
+          onClick={() => handleMarketChange('futures')}
+          className={`flex items-center gap-4 ${marketType === 'futures' ? 'text-white1 font-bold' : 'text-white-65 hover:text-white-80 transition-all duration-150 ease-in-out'}`}
         >
           <i className="fa-solid fa-chart-line"></i>
           Futures
-        </Link>
+        </Button>
       </nav>
     </header>
   );

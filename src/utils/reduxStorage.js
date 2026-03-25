@@ -1,22 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getSpotCardStorage, getFuturesCardStorage } from './localStorageUtils';
+import {
+  getMarketTypeStorage,
+  getFavoriteCoinsStorage,
+} from './localStorageUtils';
 
-const spotStorage = getSpotCardStorage();
-const futuresStorage = getFuturesCardStorage();
+const marketTypeStorage = getMarketTypeStorage();
+const favoriteCoinsStorage = getFavoriteCoinsStorage();
 
 const ReduxSlice = createSlice({
   name: 'dataStore',
   initialState: {
+    marketType: marketTypeStorage === 'futures' ? 'futures' : 'spot',
     spotCoinData: null,
     futuresCoinData: null,
     spotCoinMetadata: null,
     futuresCoinMetadata: null,
     spotMarketActivity: null,
     futuresMarketActivity: null,
-    spotFavoriteCoins: spotStorage?.favoriteCoins || [],
-    futuresFavoriteCoins: futuresStorage?.favoriteCoins || [],
+    spotFavoriteCoins: favoriteCoinsStorage?.spot || [],
+    futuresFavoriteCoins: favoriteCoinsStorage?.futures || [],
   },
   reducers: {
+    setMarketType(state, action) {
+      state.marketType = action.payload;
+    },
     setSpotCoinData(state, action) {
       state.spotCoinData = action.payload;
     },
@@ -45,6 +52,7 @@ const ReduxSlice = createSlice({
 });
 
 export const {
+  setMarketType,
   setSpotCoinData,
   setFuturesCoinData,
   setSpotCoinMetadata,

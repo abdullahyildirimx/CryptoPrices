@@ -2,22 +2,17 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
 import {
-  getFuturesMarketActivityStorage,
-  setFuturesMarketActivityStorage,
-  getSpotMarketActivityStorage,
-  setSpotMarketActivityStorage,
+  getShowOnlyFavoritesStorage,
+  setShowOnlyFavoritesStorage,
 } from '../utils/localStorageUtils';
 import MarketActivity from './MarketActivity';
 import { getLogoFromUrl } from '../utils/urls';
 import { Checkbox } from '@base-ui/react';
 import SearchBar from './SearchBar';
 
-const MarketActivityCard = ({ isSpot = false }) => {
-  const localStorageActivity = isSpot
-    ? getSpotMarketActivityStorage()
-    : getFuturesMarketActivityStorage();
+const MarketActivityCard = ({ isSpot }) => {
   const [showFavorites, setShowFavorites] = useState(
-    localStorageActivity?.showFavorites || false,
+    getShowOnlyFavoritesStorage() || false,
   );
   const [searchedCoins, setSearchedCoins] = useState(null);
   const {
@@ -36,13 +31,9 @@ const MarketActivityCard = ({ isSpot = false }) => {
     ? spotFavoriteCoins
     : futuresFavoriteCoins;
 
-  const handleToggleFavorites = (newValue) => {
-    setShowFavorites(newValue);
-    if (isSpot) {
-      setSpotMarketActivityStorage('showFavorites', newValue);
-    } else {
-      setFuturesMarketActivityStorage('showFavorites', newValue);
-    }
+  const handleToggleFavorites = (value) => {
+    setShowFavorites(value);
+    setShowOnlyFavoritesStorage(value);
   };
 
   const getLogo = (symbol) => {

@@ -346,7 +346,7 @@ app.get('/logo', async (req, res) => {
 
     res.set('Content-Type', 'image/png');
     res.set('Cache-Control', 'public, max-age=2592000, immutable');
-    res.send(buffer);
+    res.status(200).send(buffer);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching image');

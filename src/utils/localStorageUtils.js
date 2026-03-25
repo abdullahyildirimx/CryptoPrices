@@ -1,41 +1,33 @@
-export const getSpotCardStorage = () => {
-  return JSON.parse(localStorage.getItem('spotCard'));
+export const getMarketTypeStorage = () => {
+  return JSON.parse(localStorage.getItem('marketType'));
 };
 
-export const getFuturesCardStorage = () => {
-  return JSON.parse(localStorage.getItem('futuresCard'));
+export const getSelectedTabStorage = () => {
+  return JSON.parse(localStorage.getItem('selectedTab'));
 };
 
-export const getSpotMarketActivityStorage = () => {
-  return JSON.parse(localStorage.getItem('spotMarketActivity'));
+export const getFavoriteCoinsStorage = () => {
+  return JSON.parse(localStorage.getItem('favoriteCoins'));
 };
 
-export const getFuturesMarketActivityStorage = () => {
-  return JSON.parse(localStorage.getItem('futuresMarketActivity'));
+export const getShowOnlyFavoritesStorage = () => {
+  return JSON.parse(localStorage.getItem('showOnlyFavorites'));
 };
 
-export const setSpotCardStorage = (key, value) => {
-  const spotCard = JSON.parse(localStorage.getItem('spotCard')) || {};
-  spotCard[key] = value;
-  localStorage.setItem('spotCard', JSON.stringify(spotCard));
+export const setMarketTypeStorage = (value) => {
+  localStorage.setItem('marketType', JSON.stringify(value));
 };
 
-export const setFuturesCardStorage = (key, value) => {
-  const futuresCard = JSON.parse(localStorage.getItem('futuresCard')) || {};
-  futuresCard[key] = value;
-  localStorage.setItem('futuresCard', JSON.stringify(futuresCard));
+export const setSelectedTabStorage = (value) => {
+  localStorage.setItem('selectedTab', JSON.stringify(value));
 };
 
-export const setSpotMarketActivityStorage = (key, value) => {
-  const marketActivity =
-    JSON.parse(localStorage.getItem('spotMarketActivity')) || {};
-  marketActivity[key] = value;
-  localStorage.setItem('spotMarketActivity', JSON.stringify(marketActivity));
+export const setFavoriteCoinsStorage = (key, value) => {
+  const favoriteCoins = JSON.parse(localStorage.getItem('favoriteCoins')) || {};
+  favoriteCoins[key] = value;
+  localStorage.setItem('favoriteCoins', JSON.stringify(favoriteCoins));
 };
 
-export const setFuturesMarketActivityStorage = (key, value) => {
-  const marketActivity =
-    JSON.parse(localStorage.getItem('futuresMarketActivity')) || {};
-  marketActivity[key] = value;
-  localStorage.setItem('futuresMarketActivity', JSON.stringify(marketActivity));
+export const setShowOnlyFavoritesStorage = (value) => {
+  localStorage.setItem('showOnlyFavorites', JSON.stringify(value));
 };

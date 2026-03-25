@@ -4,9 +4,12 @@ import axios from 'axios';
 import { setFuturesMarketActivity } from '../utils/reduxStorage';
 import { futuresMarketActivityUrl } from '../utils/urls';
 
-const useFuturesMarketActivity = () => {
+const useFuturesMarketActivity = (enabled) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
+    if (!enabled) return;
+
     const fetchMarketActivity = async () => {
       try {
         const response = await axios.get(futuresMarketActivityUrl);
@@ -35,7 +38,7 @@ const useFuturesMarketActivity = () => {
     fetchMarketActivity();
     const intervalId = setInterval(fetchMarketActivity, 10000);
     return () => clearInterval(intervalId);
-  }, [dispatch]);
+  }, [enabled, dispatch]);
 };
 
 export default useFuturesMarketActivity;

@@ -4,9 +4,12 @@ import axios from 'axios';
 import { setSpotMarketActivity } from '../utils/reduxStorage';
 import { spotMarketActivityUrl } from '../utils/urls';
 
-const useSpotMarketActivity = () => {
+const useSpotMarketActivity = (enabled) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
+    if (!enabled) return;
+
     const fetchMarketActivity = async () => {
       try {
         const response = await axios.get(spotMarketActivityUrl);
@@ -35,7 +38,7 @@ const useSpotMarketActivity = () => {
     fetchMarketActivity();
     const intervalId = setInterval(fetchMarketActivity, 10000);
     return () => clearInterval(intervalId);
-  }, [dispatch]);
+  }, [enabled, dispatch]);
 };
 
 export default useSpotMarketActivity;
