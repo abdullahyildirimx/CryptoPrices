@@ -93,30 +93,23 @@ const MarketActivityCard = ({ isSpot }) => {
     <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
       <div className={`flex flex-col justify-between`}>
         <div className="flex justify-between mb-14">
-          <div className="hidden lg:flex items-center gap-4">
-            <h1 className="hidden lg:block text-[20px]/[35px]">
-              {isSpot ? 'Spot Market Activity' : 'Futures Market Activity'}
-            </h1>
-            <i
-              className="hidden lg:block fa-regular fa-circle-question"
-              data-tooltip-id="infoTooltip1"
-            ></i>
-          </div>
-          <div className="lg:hidden flex flex-col">
-            <h1 className="lg:hidden text-[18px]/[24px] lg:text-[20px]/[35px]">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:gap-4">
+            <h1 className="text-[18px]/[24px] lg:text-[20px]/[35px]">
               {isSpot ? 'Spot Market' : 'Futures Market'}
             </h1>
             <div className="flex items-center gap-4">
-              <h1 className="lg:hidden text-[18px]/[24px]">Activity</h1>
+              <h1 className="text-[18px]/[24px] lg:text-[20px]/[35px]">
+                Activity
+              </h1>
               <i
-                className="hidden lg:block fa-regular fa-circle-question"
+                className="fa-regular fa-circle-question"
                 data-tooltip-id="infoTooltip1"
               ></i>
             </div>
           </div>
           <SearchBar handleSearch={handleSearch} id={'searchActivity'} />
         </div>
-        <div className="flex items-center mb-14 gap-4">
+        <div className="flex items-center mb-15 gap-4">
           <label className="flex items-center gap-4 h-24">
             <Checkbox.Root
               aria-label="Show only favorites"

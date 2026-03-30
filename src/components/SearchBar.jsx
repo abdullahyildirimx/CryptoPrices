@@ -27,7 +27,7 @@ const SearchBar = ({ handleSearch, id }) => {
           border rounded-md
           py-6 pr-8 pl-12
           placeholder:text-neutral-400
-          border-grey2 hover:border-blue-500 focus:border-blue-500
+          border-grey2 hover:border-blue-500 focus:border-blue-500 caret-blue-500
           focus:outline-none
           transition-all duration-150 ease-in-out
         `}

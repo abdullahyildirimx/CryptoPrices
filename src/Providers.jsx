@@ -6,10 +6,6 @@ const store = configureStore({
   reducer: {
     dataStore: ReduxReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
 });
 
 const Providers = ({ children }) => {
