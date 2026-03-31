@@ -35,7 +35,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
           initialFocus={false}
           className="
             fixed flex flex-col left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-            w-[90vw] max-w-1200 h-[80vh] max-h-600 bg-black
+            w-[90vw] max-w-1200 h-[80vh] max-h-500 md:max-h-600 bg-black
             rounded-lg border border-grey2
             text-white1
           "
