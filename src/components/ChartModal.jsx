@@ -34,8 +34,8 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
         <Dialog.Popup
           initialFocus={false}
           className="
-            fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-            w-[90vw] max-w-1200 bg-black
+            fixed flex flex-col left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+            w-[90vw] max-w-1200 h-[80vh] max-h-600 bg-black
             rounded-lg border border-grey2
             text-white1
           "
@@ -48,7 +48,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
               <i className="fa-solid fa-xmark text-[16px]" />
             </Dialog.Close>
           </div>
-          <div className="p-24 w-full h-400 md:h-500 relative">
+          <div className="p-24 w-full flex-1 min-h-0 relative">
             {selectedCoin ? (
               <>
                 {loading && (
