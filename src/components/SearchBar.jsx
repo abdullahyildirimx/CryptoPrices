@@ -15,29 +15,37 @@ const SearchBar = ({ handleSearch, id }) => {
   };
 
   return (
-    <div className="relative">
+    <div
+      className="
+        relative w-160 lg:w-200 h-32 md:h-35
+        border border-grey2 rounded-md
+        transition-all duration-150 ease-in-out
+        hover:border-blue-500
+        focus-within:border-blue-500
+        [&:has(button:hover)]:border-blue-500
+      "
+    >
       <Input
         id={id}
         value={searchTerm}
         onValueChange={(value) => handleChange(value)}
         placeholder="Search"
         autoComplete="off"
-        className={`
-          w-160 lg:w-200 text-[12px] md:text-[14px]
-          border rounded-md
+        className="
+          text-[12px] md:text-[14px]
+          w-130 lg:w-170
           py-6 pr-8 pl-12
           placeholder:text-neutral-400
-          border-grey2 hover:border-blue-500 focus:border-blue-500 caret-blue-500
+          caret-blue-500
           focus:outline-none
-          transition-all duration-150 ease-in-out
-        `}
+        "
       />
 
       {searchTerm && (
         <Button
           onClick={handleClear}
           className="
-            absolute top-6.5 md:top-7.5 right-6
+            absolute top-5 md:top-6.5 right-6
             flex items-center justify-center
             h-20 w-20
             rounded-full
