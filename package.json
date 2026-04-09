@@ -12,11 +12,11 @@
   "dependencies": {
     "@base-ui/react": "^1.3.0",
     "@reduxjs/toolkit": "^2.11.2",
-    "axios": "^1.14.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "axios": "^1.15.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.13.2",
+    "react-router-dom": "^7.14.0",
     "react-tooltip": "^5.30.0"
   },
   "devDependencies": {
@@ -26,11 +26,11 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "eslint": "^10.1.0",
-    "eslint-plugin-react-hooks": "7.1.0-canary-80b1cab3-20260331",
+    "eslint": "^10.2.0",
+    "eslint-plugin-react-hooks": "7.1.0-canary-404b38c7-20260408",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "tailwindcss": "^4.2.2",
-    "vite": "^8.0.3"
+    "vite": "^8.0.7"
   }
 }
