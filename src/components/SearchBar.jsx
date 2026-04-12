@@ -1,18 +1,19 @@
 import { Button, Input } from '@base-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const SearchBar = ({ handleSearch, id }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { marketType } = useSelector((state) => state.dataStore);
 
   const handleChange = (value) => {
     setSearchTerm(value);
     handleSearch(value);
   };
 
-  const handleClear = () => {
-    setSearchTerm('');
-    handleSearch('');
-  };
+  useEffect(() => {
+    handleChange('');
+  }, [marketType]);
 
   return (
     <div
@@ -43,7 +44,7 @@ const SearchBar = ({ handleSearch, id }) => {
 
       {searchTerm && (
         <Button
-          onClick={handleClear}
+          onClick={() => handleChange('')}
           className="
             absolute top-5 md:top-6.5 right-6
             flex items-center justify-center
