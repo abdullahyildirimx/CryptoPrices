@@ -168,7 +168,7 @@ const MarketPricesCard = ({ isSpot }) => {
           <h1 className="text-[18px]/[24px] md:text-[20px]">
             {isSpot ? 'Spot Market' : 'Futures Market'}
           </h1>
-          <SearchBar handleSearch={handleSearch} id={'searchCoin'} />
+          <SearchBar key={isSpot} handleSearch={handleSearch} id={'searchCoin'} />
         </div>
         <div className="flex items-center">
           {['favorite', 'all'].map((tab) => (

@@ -1,19 +1,13 @@
 import { Button, Input } from '@base-ui/react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const SearchBar = ({ handleSearch, id }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { marketType } = useSelector((state) => state.dataStore);
 
   const handleChange = (value) => {
     setSearchTerm(value);
     handleSearch(value);
   };
-
-  useEffect(() => {
-    handleChange('');
-  }, [marketType]);
 
   return (
     <div

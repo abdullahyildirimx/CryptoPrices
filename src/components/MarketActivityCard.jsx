@@ -107,7 +107,7 @@ const MarketActivityCard = ({ isSpot }) => {
               ></i>
             </div>
           </div>
-          <SearchBar handleSearch={handleSearch} id={'searchActivity'} />
+          <SearchBar key={isSpot} handleSearch={handleSearch} id={'searchActivity'} />
         </div>
         <div className="flex items-center mb-15 gap-4">
           <label className="flex items-center gap-4 h-24">

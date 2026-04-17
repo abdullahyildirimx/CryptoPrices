@@ -19,11 +19,13 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
     onOpenChange(open);
   };
 
-  const convertedCoin = normalizeCoinName(selectedCoin);
+  const convertedCoin = normalizeCoinName(selectedCoin)?.toUpperCase();
   const symbol = convertedCoin
     ? isSpot
-      ? `BINANCE:${convertedCoin.toUpperCase()}USDT`
-      : `BINANCE:${convertedCoin.toUpperCase()}USDT.P`
+      ? convertedCoin === 'USDT'
+        ? 'BINANCE:USDTTRY'
+        : `BINANCE:${convertedCoin}USDT`
+      : `BINANCE:${convertedCoin}USDT.P`
     : '';
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
