@@ -1,7 +1,7 @@
 {
   "name": "cryptoprices",
   "private": true,
-  "version": "1.11.1",
+  "version": "1.11.2",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@base-ui/react": "^1.4.0",
     "@reduxjs/toolkit": "^2.11.2",
-    "axios": "^1.15.0",
+    "axios": "^1.15.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-redux": "^9.2.0",
