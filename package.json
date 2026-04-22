@@ -10,19 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@base-ui/react": "^1.4.0",
+    "@base-ui/react": "^1.4.1",
     "@reduxjs/toolkit": "^2.11.2",
-    "axios": "^1.15.1",
+    "axios": "^1.15.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.14.1",
+    "react-router-dom": "^7.14.2",
     "react-tooltip": "^5.30.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
@@ -30,7 +30,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
-    "tailwindcss": "^4.2.2",
-    "vite": "^8.0.8"
+    "tailwindcss": "^4.2.4",
+    "vite": "^8.0.9"
   }
 }
