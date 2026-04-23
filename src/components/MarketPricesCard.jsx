@@ -13,18 +13,20 @@ import {
 } from '../utils/reduxStorage';
 import { Button } from '@base-ui/react';
 
-const MarketPricesCard = ({ isSpot }) => {
+const MarketPricesCard = () => {
   const [selectedTab, setSelectedTab] = useState(
     getSelectedTabStorage() || 'all',
   );
   const [sortOrder, setSortOrder] = useState('default');
   const [searchedCoins, setSearchedCoins] = useState(null);
   const {
+    marketType,
     spotCoinData,
     spotFavoriteCoins,
     futuresCoinData,
     futuresFavoriteCoins,
   } = useSelector((state) => state.dataStore);
+  const isSpot = marketType === 'spot';
   const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
   const selectedFavoriteCoins = isSpot
     ? spotFavoriteCoins

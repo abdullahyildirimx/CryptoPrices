@@ -10,12 +10,13 @@ import { getLogoFromUrl } from '../utils/urls';
 import { Checkbox } from '@base-ui/react';
 import SearchBar from './SearchBar';
 
-const MarketActivityCard = ({ isSpot }) => {
+const MarketActivityCard = () => {
   const [showFavorites, setShowFavorites] = useState(
     getShowOnlyFavoritesStorage() || false,
   );
   const [searchedCoins, setSearchedCoins] = useState(null);
   const {
+    marketType,
     spotCoinData,
     spotMarketActivity,
     spotFavoriteCoins,
@@ -23,6 +24,7 @@ const MarketActivityCard = ({ isSpot }) => {
     futuresMarketActivity,
     futuresFavoriteCoins,
   } = useSelector((state) => state.dataStore);
+  const isSpot = marketType === 'spot';
   const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
   const selectedMarketActivity = isSpot
     ? spotMarketActivity
