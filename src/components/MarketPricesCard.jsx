@@ -13,20 +13,20 @@ import {
 } from '../utils/reduxStorage';
 import { Button } from '@base-ui/react';
 
-const MarketPricesCard = () => {
-  const [selectedTab, setSelectedTab] = useState(
-    getSelectedTabStorage() || 'all',
-  );
+const MarketPricesCard = ({ isSpot }) => {
+  const tabs = isSpot ? ['favorite', 'all'] : ['favorite', 'tradfi', 'all'];
+  const [selectedTab, setSelectedTab] = useState(() => {
+    const stored = getSelectedTabStorage();
+    return tabs.includes(stored) ? stored : 'all';
+  });
   const [sortOrder, setSortOrder] = useState('default');
   const [searchedCoins, setSearchedCoins] = useState(null);
   const {
-    marketType,
     spotCoinData,
     spotFavoriteCoins,
     futuresCoinData,
     futuresFavoriteCoins,
   } = useSelector((state) => state.dataStore);
-  const isSpot = marketType === 'spot';
   const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
   const selectedFavoriteCoins = isSpot
     ? spotFavoriteCoins
@@ -106,6 +106,8 @@ const MarketPricesCard = () => {
           );
         })
         .filter((coin) => coin !== null);
+    } else if (selectedTab === 'tradfi') {
+      coins = selectedCoinData.filter((data) => data.isTradFi);
     } else {
       coins = selectedCoinData;
     }
@@ -177,7 +179,7 @@ const MarketPricesCard = () => {
           />
         </div>
         <div className="flex items-center">
-          {['favorite', 'all'].map((tab) => (
+          {tabs.map((tab) => (
             <Button
               key={tab}
               onClick={() => {
@@ -192,7 +194,11 @@ const MarketPricesCard = () => {
                 }
               `}
             >
-              {tab === 'favorite' ? 'Favorite' : 'All'}
+              {tab === 'favorite'
+                ? 'Favorite'
+                : tab === 'tradfi'
+                  ? 'TradFi'
+                  : 'All'}
             </Button>
           ))}
         </div>
@@ -201,7 +207,17 @@ const MarketPricesCard = () => {
             className={`
               absolute top-0 w-20 h-2 rounded-full bg-white1
               transition-all duration-300 ease-in-out
-              ${selectedTab === 'all' ? 'translate-x-96' : 'translate-x-31'}
+              ${
+                isSpot
+                  ? selectedTab === 'all'
+                    ? 'translate-x-96'
+                    : 'translate-x-31'
+                  : selectedTab === 'all'
+                    ? 'translate-x-166'
+                    : selectedTab === 'tradfi'
+                      ? 'translate-x-107'
+                      : 'translate-x-31'
+              }
             `}
           />
         </div>
@@ -299,9 +315,7 @@ const MarketPricesCard = () => {
               <div className="h-full flex justify-center items-center">
                 No results found.
               </div>
-            ) : selectedTab === 'favorite' &&
-              !selectedFavoriteCoins.length &&
-              !searchedCoins?.length ? (
+            ) : selectedTab === 'favorite' && !selectedFavoriteCoins.length ? (
               <div className="h-full flex justify-center items-center">
                 You don&apos;t have any favorite coins.
               </div>

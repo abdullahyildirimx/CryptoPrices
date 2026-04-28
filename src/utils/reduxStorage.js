@@ -13,8 +13,6 @@ const ReduxSlice = createSlice({
     marketType: marketTypeStorage === 'futures' ? 'futures' : 'spot',
     spotCoinData: null,
     futuresCoinData: null,
-    spotCoinMetadata: null,
-    futuresCoinMetadata: null,
     spotMarketActivity: null,
     futuresMarketActivity: null,
     spotFavoriteCoins: favoriteCoinsStorage?.spot || [],
@@ -29,12 +27,6 @@ const ReduxSlice = createSlice({
     },
     setFuturesCoinData(state, action) {
       state.futuresCoinData = action.payload;
-    },
-    setSpotCoinMetadata(state, action) {
-      state.spotCoinMetadata = action.payload;
-    },
-    setFuturesCoinMetadata(state, action) {
-      state.futuresCoinMetadata = action.payload;
     },
     setSpotMarketActivity(state, action) {
       state.spotMarketActivity = action.payload;
@@ -55,8 +47,6 @@ export const {
   setMarketType,
   setSpotCoinData,
   setFuturesCoinData,
-  setSpotCoinMetadata,
-  setFuturesCoinMetadata,
   setSpotMarketActivity,
   setFuturesMarketActivity,
   setSpotFavoriteCoins,

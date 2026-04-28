@@ -10,13 +10,12 @@ import { getLogoFromUrl } from '../utils/urls';
 import { Checkbox } from '@base-ui/react';
 import SearchBar from './SearchBar';
 
-const MarketActivityCard = () => {
+const MarketActivityCard = ({ isSpot }) => {
   const [showFavorites, setShowFavorites] = useState(
     getShowOnlyFavoritesStorage() || false,
   );
   const [searchedCoins, setSearchedCoins] = useState(null);
   const {
-    marketType,
     spotCoinData,
     spotMarketActivity,
     spotFavoriteCoins,
@@ -24,7 +23,6 @@ const MarketActivityCard = () => {
     futuresMarketActivity,
     futuresFavoriteCoins,
   } = useSelector((state) => state.dataStore);
-  const isSpot = marketType === 'spot';
   const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
   const selectedMarketActivity = isSpot
     ? spotMarketActivity
@@ -159,15 +157,21 @@ const MarketActivityCard = () => {
         className={`h-275 md:h-[calc(100vh-242px)] lg:h-[calc(100vh-229px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length ? 'flex justify-center items-center' : ''}`}
       >
         {selectedMarketActivity ? (
-          <>
-            <MarketActivity activity={activity} isSpot={isSpot} />
-            {!activity.length &&
-              (showFavorites ? (
-                <p>There is no market activity for your favorite coins.</p>
-              ) : (
-                <p>There is no market activity.</p>
-              ))}
-          </>
+          searchedCoins?.length === 0 ? (
+            <div className="flex justify-center items-center">
+              No results found.
+            </div>
+          ) : (
+            <>
+              <MarketActivity activity={activity} isSpot={isSpot} />
+              {!activity.length &&
+                (showFavorites ? (
+                  <p>There is no market activity for your favorite coins.</p>
+                ) : (
+                  <p>There is no market activity.</p>
+                ))}
+            </>
+          )
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="w-36 h-36 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>

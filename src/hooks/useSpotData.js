@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { setSpotCoinData, setSpotCoinMetadata } from '../utils/reduxStorage';
+import { setSpotCoinData } from '../utils/reduxStorage';
 import { spotPriceUrl, spotExchangeInfoUrl, coinLogosUrl } from '../utils/urls';
 
 const useSpotData = (enabled) => {
-  const { spotCoinMetadata } = useSelector((state) => state.dataStore);
-  const [coinMetadata, setCoinMetadata] = useState(spotCoinMetadata || null);
+  const [coinMetadata, setCoinMetadata] = useState(null);
   const dispatch = useDispatch();
 
   const countDecimalPlaces = (num) => {
@@ -28,6 +27,55 @@ const useSpotData = (enabled) => {
     if (!enabled) return;
 
     const fetchPriceData = async () => {
+      let metadata = coinMetadata;
+      if (!metadata) {
+        try {
+          const response = await axios.get(spotExchangeInfoUrl);
+          const jsonData = response.data;
+
+          const response2 = await axios.get(coinLogosUrl);
+          const logoData = response2.data?.data;
+
+          const filteredCoins = jsonData.symbols.filter((coin) => {
+            return (
+              (coin.symbol.endsWith('USDT') || coin.symbol === 'USDTTRY') &&
+              coin.status === 'TRADING'
+            );
+          });
+          const coinMetadata = filteredCoins
+            .map((item) => {
+              let symbol = item.symbol;
+              const tickSize = countDecimalPlaces(item.filters[0].tickSize);
+              let logo;
+
+              if (symbol !== 'USDTTRY') {
+                symbol = symbol.slice(0, -'USDT'.length);
+              } else {
+                symbol = symbol.slice(0, -'TRY'.length);
+              }
+
+              if (symbol !== 'EUR') {
+                logo = logoData.find((coin) => coin?.asset === symbol)?.logo;
+              } else {
+                logo = logoData.find((coin) => coin?.asset === 'EURI')?.logo;
+              }
+
+              return {
+                symbol: symbol,
+                tickSize: tickSize,
+                logo: logo,
+              };
+            })
+            .slice()
+            .sort((a, b) => {
+              return a.symbol.localeCompare(b.symbol);
+            });
+
+          setCoinMetadata(coinMetadata);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
       try {
         const response = await axios.get(spotPriceUrl);
         const jsonData = response.data;
@@ -88,62 +136,6 @@ const useSpotData = (enabled) => {
     const intervalId = setInterval(fetchPriceData, 5000);
     return () => clearInterval(intervalId);
   }, [coinMetadata, enabled, dispatch]);
-
-  useEffect(() => {
-    if (!enabled || spotCoinMetadata) return;
-
-    const fetchCoinMetadata = async () => {
-      try {
-        const response = await axios.get(spotExchangeInfoUrl);
-        const jsonData = response.data;
-
-        const response2 = await axios.get(coinLogosUrl);
-        const logoData = response2.data?.data;
-
-        const filteredCoins = jsonData.symbols.filter((coin) => {
-          return (
-            (coin.symbol.endsWith('USDT') || coin.symbol === 'USDTTRY') &&
-            coin.status === 'TRADING'
-          );
-        });
-        const coinMetadata = filteredCoins
-          .map((item) => {
-            let symbol = item.symbol;
-            let tickSize = countDecimalPlaces(item.filters[0].tickSize);
-            let logo;
-
-            if (symbol !== 'USDTTRY') {
-              symbol = symbol.slice(0, -'USDT'.length);
-            } else {
-              symbol = symbol.slice(0, -'TRY'.length);
-            }
-
-            if (symbol !== 'EUR') {
-              logo = logoData.find((coin) => coin?.asset === symbol)?.logo;
-            } else {
-              logo = logoData.find((coin) => coin?.asset === 'EURI')?.logo;
-            }
-
-            return {
-              symbol: symbol,
-              tickSize: tickSize,
-              logo: logo,
-            };
-          })
-          .slice()
-          .sort((a, b) => {
-            return a.symbol.localeCompare(b.symbol);
-          });
-
-        setCoinMetadata(coinMetadata);
-        dispatch(setSpotCoinMetadata(coinMetadata));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchCoinMetadata();
-  }, [spotCoinMetadata, enabled, dispatch]);
 };
 
 export default useSpotData;

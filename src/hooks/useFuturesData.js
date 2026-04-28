@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import {
-  setFuturesCoinData,
-  setFuturesCoinMetadata,
-} from '../utils/reduxStorage';
+import { setFuturesCoinData } from '../utils/reduxStorage';
 import {
   futuresPriceUrl,
   futuresExchangeInfoUrl,
@@ -12,8 +9,7 @@ import {
 } from '../utils/urls';
 
 const useFuturesData = (enabled) => {
-  const { futuresCoinMetadata } = useSelector((state) => state.dataStore);
-  const [coinMetadata, setCoinMetadata] = useState(futuresCoinMetadata || null);
+  const [coinMetadata, setCoinMetadata] = useState(null);
   const dispatch = useDispatch();
 
   const countDecimalPlaces = (num) => {
@@ -35,6 +31,46 @@ const useFuturesData = (enabled) => {
     if (!enabled) return;
 
     const fetchPriceData = async () => {
+      let metadata = coinMetadata;
+      if (!metadata) {
+        try {
+          const response = await axios.get(futuresExchangeInfoUrl);
+          const jsonData = response.data;
+
+          const response2 = await axios.get(coinLogosUrl);
+          const logoData = response2.data?.data;
+
+          const filteredCoins = jsonData.symbols.filter((coin) => {
+            return coin.symbol.endsWith('USDT') && coin.status === 'TRADING';
+          });
+
+          const coinMetadata = filteredCoins
+            .map((item) => {
+              const symbol = item.symbol.slice(0, -'USDT'.length);
+              const tickSize = countDecimalPlaces(item.filters[0].tickSize);
+              const isTradFi = item.contractType === 'TRADIFI_PERPETUAL';
+              const logo = logoData.find(
+                (coin) => coin?.asset === symbol,
+              )?.logo;
+
+              return {
+                symbol: symbol,
+                tickSize: tickSize,
+                isTradFi: isTradFi,
+                logo: logo,
+              };
+            })
+            .slice()
+            .sort((a, b) => {
+              return a.symbol.localeCompare(b.symbol);
+            });
+
+          setCoinMetadata(coinMetadata);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+
       try {
         const response = await fetch(futuresPriceUrl);
         if (!response.ok) {
@@ -57,6 +93,7 @@ const useFuturesData = (enabled) => {
           const currency = '$';
           let logo = null;
           let tickSize = null;
+          let isTradFi = null;
 
           if (coinMetadata) {
             let metadata = coinMetadata.find((coin) => coin.symbol === symbol);
@@ -65,6 +102,7 @@ const useFuturesData = (enabled) => {
               price = parseFloat(price).toFixed(tickSizeDecimals);
               logo = metadata.logo;
               tickSize = metadata.tickSize;
+              isTradFi = metadata.isTradFi;
             }
           } else {
             price = parseFloat(price);
@@ -78,6 +116,7 @@ const useFuturesData = (enabled) => {
             currency: currency,
             logo: logo,
             tickSize: tickSize,
+            isTradFi: isTradFi,
           };
         });
         dispatch(setFuturesCoinData(priceList));
@@ -90,48 +129,6 @@ const useFuturesData = (enabled) => {
     const intervalId = setInterval(fetchPriceData, 5000);
     return () => clearInterval(intervalId);
   }, [coinMetadata, enabled, dispatch]);
-
-  useEffect(() => {
-    if (!enabled || futuresCoinMetadata) return;
-
-    const fetchCoinMetadata = async () => {
-      try {
-        const response = await axios.get(futuresExchangeInfoUrl);
-        const jsonData = response.data;
-
-        const response2 = await axios.get(coinLogosUrl);
-        const logoData = response2.data?.data;
-
-        const filteredCoins = jsonData.symbols.filter((coin) => {
-          return coin.symbol.endsWith('USDT') && coin.status === 'TRADING';
-        });
-
-        const coinMetadata = filteredCoins
-          .map((item) => {
-            const symbol = item.symbol.slice(0, -'USDT'.length);
-            let tickSize = countDecimalPlaces(item.filters[0].tickSize);
-            let logo;
-            logo = logoData.find((coin) => coin?.asset === symbol)?.logo;
-            return {
-              symbol: symbol,
-              tickSize: tickSize,
-              logo: logo,
-            };
-          })
-          .slice()
-          .sort((a, b) => {
-            return a.symbol.localeCompare(b.symbol);
-          });
-
-        setCoinMetadata(coinMetadata);
-        dispatch(setFuturesCoinMetadata(coinMetadata));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchCoinMetadata();
-  }, [futuresCoinMetadata, enabled, dispatch]);
 };
 
 export default useFuturesData;
