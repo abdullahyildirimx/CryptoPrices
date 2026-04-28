@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ChartModal from './ChartModal';
 
-const MarketActivity = ({ activity, isSpot }) => {
+const MarketActivity = ({ activity }) => {
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,7 +58,6 @@ const MarketActivity = ({ activity, isSpot }) => {
         isOpen={isOpen}
         onOpenChange={handleCloseChart}
         selectedCoin={selectedCoin}
-        isSpot={isSpot}
       />
     </>
   );

@@ -1,7 +1,7 @@
 import { Dialog } from '@base-ui/react/dialog';
 import { useState } from 'react';
 
-const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
+const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
   const [loading, setLoading] = useState(true);
 
   const COIN_NAME_MAP = {
@@ -21,11 +21,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin, isSpot }) => {
 
   const convertedCoin = normalizeCoinName(selectedCoin)?.toUpperCase();
   const symbol = convertedCoin
-    ? isSpot
-      ? convertedCoin === 'USDT'
-        ? 'BINANCE:USDTTRY'
-        : `BINANCE:${convertedCoin}USDT`
-      : `BINANCE:${convertedCoin}USDT.P`
+    ? `BINANCE:${convertedCoin}USDT.P`
     : '';
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 

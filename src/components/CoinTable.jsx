@@ -3,7 +3,7 @@ import { getLogoFromUrl } from '../utils/urls';
 import ChartModal from './ChartModal';
 import { Button } from '@base-ui/react';
 
-const CoinTable = ({ coins, isSpot, favoriteCoins, toggleFavorite }) => {
+const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -100,7 +100,6 @@ const CoinTable = ({ coins, isSpot, favoriteCoins, toggleFavorite }) => {
         isOpen={isOpen}
         onOpenChange={handleCloseChart}
         selectedCoin={selectedCoin}
-        isSpot={isSpot}
       />
     </>
   );

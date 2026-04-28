@@ -10,26 +10,16 @@ import { getLogoFromUrl } from '../utils/urls';
 import { Checkbox } from '@base-ui/react';
 import SearchBar from './SearchBar';
 
-const MarketActivityCard = ({ isSpot }) => {
+const MarketActivityCard = () => {
   const [showFavorites, setShowFavorites] = useState(
     getShowOnlyFavoritesStorage() || false,
   );
   const [searchedCoins, setSearchedCoins] = useState(null);
   const {
-    spotCoinData,
-    spotMarketActivity,
-    spotFavoriteCoins,
-    futuresCoinData,
-    futuresMarketActivity,
-    futuresFavoriteCoins,
+    coinData,
+    marketActivity,
+    favoriteCoins,
   } = useSelector((state) => state.dataStore);
-  const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
-  const selectedMarketActivity = isSpot
-    ? spotMarketActivity
-    : futuresMarketActivity;
-  const selectedFavoriteCoins = isSpot
-    ? spotFavoriteCoins
-    : futuresFavoriteCoins;
 
   const handleToggleFavorites = (value) => {
     setShowFavorites(value);
@@ -37,29 +27,29 @@ const MarketActivityCard = ({ isSpot }) => {
   };
 
   const getLogo = (symbol) => {
-    const url = selectedCoinData?.find((data) => data.symbol === symbol)?.logo;
+    const url = coinData?.find((data) => data.symbol === symbol)?.logo;
     return url ? getLogoFromUrl(url) : '/genericicon.png';
   };
 
   const formatPrice = (symbol, price) => {
-    const tickSize = selectedCoinData?.find(
+    const tickSize = coinData?.find(
       (data) => data.symbol === symbol,
     )?.tickSize;
     return tickSize ? parseFloat(price).toFixed(tickSize) : price;
   };
 
   const filterActivities = () => {
-    if (!selectedMarketActivity) return [];
+    if (!marketActivity) return [];
 
     const base = searchedCoins
-      ? selectedMarketActivity.filter((item) =>
+      ? marketActivity.filter((item) =>
           searchedCoins.includes(item.symbol),
         )
       : showFavorites
-        ? selectedMarketActivity.filter((item) =>
-            selectedFavoriteCoins.includes(item.symbol),
+        ? marketActivity.filter((item) =>
+            favoriteCoins.includes(item.symbol),
           )
-        : selectedMarketActivity.slice(0, 1000);
+        : marketActivity.slice(0, 1000);
     return base.map((item) => ({
       ...item,
       oldPrice: formatPrice(item.symbol, item.oldPrice),
@@ -69,12 +59,12 @@ const MarketActivityCard = ({ isSpot }) => {
   };
 
   const handleSearch = (value) => {
-    if (!selectedMarketActivity) return [];
+    if (!marketActivity) return [];
 
     if (value) {
       const filteredResults = Array.from(
         new Set(
-          selectedMarketActivity
+          marketActivity
             .filter((item) =>
               item.symbol.toLowerCase().includes(value.toLowerCase()),
             )
@@ -93,22 +83,16 @@ const MarketActivityCard = ({ isSpot }) => {
     <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
       <div className={`flex flex-col justify-between`}>
         <div className="flex justify-between mb-14">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:gap-4">
-            <h1 className="text-[18px]/[24px] lg:text-[20px]/[35px]">
-              {isSpot ? 'Spot Market' : 'Futures Market'}
+          <div className="flex items-center gap-4">
+            <h1 className="text-[18px]/[24px] md:text-[20px]/[35px]">
+              Market <br className='md:hidden' /> Activity
             </h1>
-            <div className="flex items-center gap-4">
-              <h1 className="text-[18px]/[24px] lg:text-[20px]/[35px]">
-                Activity
-              </h1>
-              <i
-                className="fa-regular fa-circle-question"
-                data-tooltip-id="infoTooltip1"
-              ></i>
-            </div>
+            <i
+              className="fa-regular fa-circle-question"
+              data-tooltip-id="infoTooltip1"
+            ></i>
           </div>
           <SearchBar
-            key={isSpot}
             handleSearch={handleSearch}
             id={'searchActivity'}
           />
@@ -144,7 +128,7 @@ const MarketActivityCard = ({ isSpot }) => {
         id="infoTooltip1"
         place="bottom"
         variant="dark"
-        content="5 minutes unusual price activity. For BTC, ETH, USDT, XAU and XAG, it is triggered when price is changed over 1%, for other coins it is 3%."
+        content="5 minutes unusual price activity. For BTC, ETH, XAU and XAG, it is triggered when price is changed over 1%, for other coins it is 3%."
       />
       <Tooltip
         className="w-200! bg-black! opacity-100!"
@@ -154,16 +138,16 @@ const MarketActivityCard = ({ isSpot }) => {
         content="If 'Show only favorites' is unchecked, you may see many activities. The latest maximum of 1000 activities is displayed at once."
       />
       <div
-        className={`h-275 md:h-[calc(100vh-242px)] lg:h-[calc(100vh-229px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length ? 'flex justify-center items-center' : ''}`}
+        className={`h-275 md:h-[calc(100vh-229px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length ? 'flex justify-center items-center' : ''}`}
       >
-        {selectedMarketActivity ? (
+        {marketActivity ? (
           searchedCoins?.length === 0 ? (
             <div className="flex justify-center items-center">
               No results found.
             </div>
           ) : (
             <>
-              <MarketActivity activity={activity} isSpot={isSpot} />
+              <MarketActivity activity={activity} />
               {!activity.length &&
                 (showFavorites ? (
                   <p>There is no market activity for your favorite coins.</p>

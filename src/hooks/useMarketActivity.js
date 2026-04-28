@@ -1,18 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { setFuturesMarketActivity } from '../utils/reduxStorage';
-import { futuresMarketActivityUrl } from '../utils/urls';
+import { setMarketActivity } from '../utils/reduxStorage';
+import { marketActivityUrl } from '../utils/urls';
 
-const useFuturesMarketActivity = (enabled) => {
+const useMarketActivity = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!enabled) return;
-
     const fetchMarketActivity = async () => {
       try {
-        const response = await axios.get(futuresMarketActivityUrl);
+        const response = await axios.get(marketActivityUrl);
         const jsonData = response.data;
         const activityList = jsonData.map((coin) => {
           const symbol = coin.symbol;
@@ -29,7 +27,7 @@ const useFuturesMarketActivity = (enabled) => {
             time: time,
           };
         });
-        dispatch(setFuturesMarketActivity(activityList));
+        dispatch(setMarketActivity(activityList));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -38,7 +36,7 @@ const useFuturesMarketActivity = (enabled) => {
     fetchMarketActivity();
     const intervalId = setInterval(fetchMarketActivity, 10000);
     return () => clearInterval(intervalId);
-  }, [enabled, dispatch]);
+  }, [dispatch]);
 };
 
-export default useFuturesMarketActivity;
+export default useMarketActivity;

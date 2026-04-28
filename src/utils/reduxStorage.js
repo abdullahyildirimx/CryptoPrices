@@ -1,55 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  getMarketTypeStorage,
   getFavoriteCoinsStorage,
 } from './localStorageUtils';
 
-const marketTypeStorage = getMarketTypeStorage();
 const favoriteCoinsStorage = getFavoriteCoinsStorage();
 
 const ReduxSlice = createSlice({
   name: 'dataStore',
   initialState: {
-    marketType: marketTypeStorage === 'futures' ? 'futures' : 'spot',
-    spotCoinData: null,
-    futuresCoinData: null,
-    spotMarketActivity: null,
-    futuresMarketActivity: null,
-    spotFavoriteCoins: favoriteCoinsStorage?.spot || [],
-    futuresFavoriteCoins: favoriteCoinsStorage?.futures || [],
+    coinData: null,
+    marketActivity: null,
+    favoriteCoins: favoriteCoinsStorage || [],
   },
   reducers: {
-    setMarketType(state, action) {
-      state.marketType = action.payload;
+    setCoinData(state, action) {
+      state.coinData = action.payload;
     },
-    setSpotCoinData(state, action) {
-      state.spotCoinData = action.payload;
+    setMarketActivity(state, action) {
+      state.marketActivity = action.payload;
     },
-    setFuturesCoinData(state, action) {
-      state.futuresCoinData = action.payload;
-    },
-    setSpotMarketActivity(state, action) {
-      state.spotMarketActivity = action.payload;
-    },
-    setFuturesMarketActivity(state, action) {
-      state.futuresMarketActivity = action.payload;
-    },
-    setSpotFavoriteCoins(state, action) {
-      state.spotFavoriteCoins = action.payload;
-    },
-    setFuturesFavoriteCoins(state, action) {
-      state.futuresFavoriteCoins = action.payload;
+    setFavoriteCoins(state, action) {
+      state.favoriteCoins = action.payload;
     },
   },
 });
 
 export const {
-  setMarketType,
-  setSpotCoinData,
-  setFuturesCoinData,
-  setSpotMarketActivity,
-  setFuturesMarketActivity,
-  setSpotFavoriteCoins,
-  setFuturesFavoriteCoins,
+  setCoinData,
+  setMarketActivity,
+  setFavoriteCoins,
 } = ReduxSlice.actions;
 export default ReduxSlice.reducer;

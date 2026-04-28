@@ -1,7 +1,3 @@
-export const getMarketTypeStorage = () => {
-  return JSON.parse(localStorage.getItem('marketType'));
-};
-
 export const getSelectedTabStorage = () => {
   return JSON.parse(localStorage.getItem('selectedTab'));
 };
@@ -14,18 +10,12 @@ export const getShowOnlyFavoritesStorage = () => {
   return JSON.parse(localStorage.getItem('showOnlyFavorites'));
 };
 
-export const setMarketTypeStorage = (value) => {
-  localStorage.setItem('marketType', JSON.stringify(value));
-};
-
 export const setSelectedTabStorage = (value) => {
   localStorage.setItem('selectedTab', JSON.stringify(value));
 };
 
-export const setFavoriteCoinsStorage = (key, value) => {
-  const favoriteCoins = JSON.parse(localStorage.getItem('favoriteCoins')) || {};
-  favoriteCoins[key] = value;
-  localStorage.setItem('favoriteCoins', JSON.stringify(favoriteCoins));
+export const setFavoriteCoinsStorage = (value) => {
+  localStorage.setItem('favoriteCoins', JSON.stringify(value));
 };
 
 export const setShowOnlyFavoritesStorage = (value) => {

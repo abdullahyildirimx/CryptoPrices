@@ -8,13 +8,12 @@ import {
   setFavoriteCoinsStorage,
 } from '../utils/localStorageUtils';
 import {
-  setSpotFavoriteCoins,
-  setFuturesFavoriteCoins,
+  setFavoriteCoins,
 } from '../utils/reduxStorage';
 import { Button } from '@base-ui/react';
 
-const MarketPricesCard = ({ isSpot }) => {
-  const tabs = isSpot ? ['favorite', 'all'] : ['favorite', 'tradfi', 'all'];
+const MarketPricesCard = () => {
+  const tabs = ['favorite', 'tradfi', 'all'];
   const [selectedTab, setSelectedTab] = useState(() => {
     const stored = getSelectedTabStorage();
     return tabs.includes(stored) ? stored : 'all';
@@ -22,15 +21,9 @@ const MarketPricesCard = ({ isSpot }) => {
   const [sortOrder, setSortOrder] = useState('default');
   const [searchedCoins, setSearchedCoins] = useState(null);
   const {
-    spotCoinData,
-    spotFavoriteCoins,
-    futuresCoinData,
-    futuresFavoriteCoins,
+    coinData,
+    favoriteCoins,
   } = useSelector((state) => state.dataStore);
-  const selectedCoinData = isSpot ? spotCoinData : futuresCoinData;
-  const selectedFavoriteCoins = isSpot
-    ? spotFavoriteCoins
-    : futuresFavoriteCoins;
   const dispatch = useDispatch();
 
   const formatTitlePrice = (value) => {
@@ -48,30 +41,16 @@ const MarketPricesCard = ({ isSpot }) => {
   };
 
   const toggleFavorite = (symbol) => {
-    if (isSpot) {
-      if (spotFavoriteCoins.includes(symbol)) {
-        const updatedFavorites = spotFavoriteCoins.filter(
-          (coin) => coin !== symbol,
-        );
-        dispatch(setSpotFavoriteCoins(updatedFavorites));
-        setFavoriteCoinsStorage('spot', updatedFavorites);
-      } else {
-        const updatedFavorites = [...spotFavoriteCoins, symbol];
-        dispatch(setSpotFavoriteCoins(updatedFavorites));
-        setFavoriteCoinsStorage('spot', updatedFavorites);
-      }
+    if (favoriteCoins.includes(symbol)) {
+      const updatedFavorites = favoriteCoins.filter(
+        (coin) => coin !== symbol,
+      );
+      dispatch(setFavoriteCoins(updatedFavorites));
+      setFavoriteCoinsStorage(updatedFavorites);
     } else {
-      if (futuresFavoriteCoins.includes(symbol)) {
-        const updatedFavorites = futuresFavoriteCoins.filter(
-          (coin) => coin !== symbol,
-        );
-        dispatch(setFuturesFavoriteCoins(updatedFavorites));
-        setFavoriteCoinsStorage('futures', updatedFavorites);
-      } else {
-        const updatedFavorites = [...futuresFavoriteCoins, symbol];
-        dispatch(setFuturesFavoriteCoins(updatedFavorites));
-        setFavoriteCoinsStorage('futures', updatedFavorites);
-      }
+      const updatedFavorites = [...favoriteCoins, symbol];
+      dispatch(setFavoriteCoins(updatedFavorites));
+      setFavoriteCoinsStorage(updatedFavorites);
     }
   };
 
@@ -86,7 +65,7 @@ const MarketPricesCard = ({ isSpot }) => {
   };
 
   const sortedAllCoins = () => {
-    if (!selectedCoinData) {
+    if (!coinData) {
       return [];
     }
     let coins;
@@ -94,22 +73,22 @@ const MarketPricesCard = ({ isSpot }) => {
       coins = searchedCoins
         .map((symbol) => {
           return (
-            selectedCoinData.find((data) => data.symbol === symbol) || null
+            coinData.find((data) => data.symbol === symbol) || null
           );
         })
         .filter((coin) => coin !== null);
     } else if (selectedTab === 'favorite') {
-      coins = selectedFavoriteCoins
+      coins = favoriteCoins
         .map((symbol) => {
           return (
-            selectedCoinData.find((data) => data.symbol === symbol) || null
+            coinData.find((data) => data.symbol === symbol) || null
           );
         })
         .filter((coin) => coin !== null);
     } else if (selectedTab === 'tradfi') {
-      coins = selectedCoinData.filter((data) => data.isTradFi);
+      coins = coinData.filter((data) => data.isTradFi);
     } else {
-      coins = selectedCoinData;
+      coins = coinData;
     }
 
     return coins.slice().sort((a, b) => {
@@ -143,11 +122,11 @@ const MarketPricesCard = ({ isSpot }) => {
   };
 
   const handleSearch = (value) => {
-    if (!selectedCoinData) {
+    if (!coinData) {
       return [];
     }
     if (value) {
-      const filteredResults = selectedCoinData
+      const filteredResults = coinData
         .filter((item) =>
           item.symbol.toLowerCase().includes(value.toLowerCase()),
         )
@@ -163,17 +142,16 @@ const MarketPricesCard = ({ isSpot }) => {
   return (
     <>
       <title>
-        {selectedCoinData
-          ? `${formatTitlePrice(selectedCoinData?.find((item) => item.symbol === 'BTC')?.price)} | CryptoPrices`
+        {coinData
+          ? `${formatTitlePrice(coinData?.find((item) => item.symbol === 'BTC')?.price)} | CryptoPrices`
           : 'CryptoPrices'}
       </title>
       <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
         <div className="flex items-center justify-between mb-14">
           <h1 className="text-[18px]/[24px] md:text-[20px]">
-            {isSpot ? 'Spot Market' : 'Futures Market'}
+            Market Prices
           </h1>
           <SearchBar
-            key={isSpot}
             handleSearch={handleSearch}
             id={'searchCoin'}
           />
@@ -208,15 +186,11 @@ const MarketPricesCard = ({ isSpot }) => {
               absolute top-0 w-20 h-2 rounded-full bg-white1
               transition-all duration-300 ease-in-out
               ${
-                isSpot
-                  ? selectedTab === 'all'
-                    ? 'translate-x-96'
+                selectedTab === 'all'
+                  ? 'translate-x-166'
+                  : selectedTab === 'tradfi'
+                    ? 'translate-x-107'
                     : 'translate-x-31'
-                  : selectedTab === 'all'
-                    ? 'translate-x-166'
-                    : selectedTab === 'tradfi'
-                      ? 'translate-x-107'
-                      : 'translate-x-31'
               }
             `}
           />
@@ -310,20 +284,19 @@ const MarketPricesCard = ({ isSpot }) => {
           </div>
         </div>
         <div className="h-250 md:h-[calc(100vh-275px)] overflow-y-auto text-[12px] md:text-[14px]">
-          {selectedCoinData ? (
+          {coinData ? (
             searchedCoins?.length === 0 ? (
               <div className="h-full flex justify-center items-center">
                 No results found.
               </div>
-            ) : selectedTab === 'favorite' && !selectedFavoriteCoins.length ? (
+            ) : selectedTab === 'favorite' && !favoriteCoins.length ? (
               <div className="h-full flex justify-center items-center">
                 You don&apos;t have any favorite coins.
               </div>
             ) : (
               <CoinTable
                 coins={coins}
-                isSpot={isSpot}
-                favoriteCoins={selectedFavoriteCoins}
+                favoriteCoins={favoriteCoins}
                 toggleFavorite={toggleFavorite}
               />
             )
