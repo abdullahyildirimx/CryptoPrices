@@ -36,7 +36,7 @@ const useMarketActivity = () => {
     };
 
     fetchPriceData();
-    const intervalId = setInterval(fetchPriceData, 10000);
+    const intervalId = setInterval(fetchPriceData, 5000);
     return () => clearInterval(intervalId);
   }, [dispatch]);
 };
