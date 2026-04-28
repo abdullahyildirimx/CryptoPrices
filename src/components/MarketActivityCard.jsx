@@ -29,11 +29,6 @@ const MarketActivityCard = () => {
     return url ? getLogoFromUrl(url) : '/genericicon.png';
   };
 
-  const formatPrice = (symbol, price) => {
-    const tickSize = coinData?.find((data) => data.symbol === symbol)?.tickSize;
-    return tickSize ? parseFloat(price).toFixed(tickSize) : price;
-  };
-
   const filterActivities = () => {
     if (!marketActivity) return [];
 
@@ -44,8 +39,6 @@ const MarketActivityCard = () => {
         : marketActivity.slice(0, 1000);
     return base.map((item) => ({
       ...item,
-      oldPrice: formatPrice(item.symbol, item.oldPrice),
-      newPrice: formatPrice(item.symbol, item.newPrice),
       logo: getLogo(item.symbol),
     }));
   };
@@ -77,7 +70,8 @@ const MarketActivityCard = () => {
         <div className="flex justify-between mb-14">
           <div className="flex items-center gap-4">
             <h1 className="text-[18px]/[24px] md:text-[20px]/[35px]">
-              Market <br className="md:hidden" />Activity
+              Market <br className="md:hidden" />
+              Activity
             </h1>
             <i
               className="fa-regular fa-circle-question"
