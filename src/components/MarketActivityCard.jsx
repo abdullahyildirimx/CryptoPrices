@@ -15,11 +15,9 @@ const MarketActivityCard = () => {
     getShowOnlyFavoritesStorage() || false,
   );
   const [searchedCoins, setSearchedCoins] = useState(null);
-  const {
-    coinData,
-    marketActivity,
-    favoriteCoins,
-  } = useSelector((state) => state.dataStore);
+  const { coinData, marketActivity, favoriteCoins } = useSelector(
+    (state) => state.dataStore,
+  );
 
   const handleToggleFavorites = (value) => {
     setShowFavorites(value);
@@ -32,9 +30,7 @@ const MarketActivityCard = () => {
   };
 
   const formatPrice = (symbol, price) => {
-    const tickSize = coinData?.find(
-      (data) => data.symbol === symbol,
-    )?.tickSize;
+    const tickSize = coinData?.find((data) => data.symbol === symbol)?.tickSize;
     return tickSize ? parseFloat(price).toFixed(tickSize) : price;
   };
 
@@ -42,13 +38,9 @@ const MarketActivityCard = () => {
     if (!marketActivity) return [];
 
     const base = searchedCoins
-      ? marketActivity.filter((item) =>
-          searchedCoins.includes(item.symbol),
-        )
+      ? marketActivity.filter((item) => searchedCoins.includes(item.symbol))
       : showFavorites
-        ? marketActivity.filter((item) =>
-            favoriteCoins.includes(item.symbol),
-          )
+        ? marketActivity.filter((item) => favoriteCoins.includes(item.symbol))
         : marketActivity.slice(0, 1000);
     return base.map((item) => ({
       ...item,
@@ -85,17 +77,14 @@ const MarketActivityCard = () => {
         <div className="flex justify-between mb-14">
           <div className="flex items-center gap-4">
             <h1 className="text-[18px]/[24px] md:text-[20px]/[35px]">
-              Market <br className='md:hidden' /> Activity
+              Market <br className="md:hidden" />Activity
             </h1>
             <i
               className="fa-regular fa-circle-question"
               data-tooltip-id="infoTooltip1"
             ></i>
           </div>
-          <SearchBar
-            handleSearch={handleSearch}
-            id={'searchActivity'}
-          />
+          <SearchBar handleSearch={handleSearch} id={'searchActivity'} />
         </div>
         <div className="flex items-center mb-15 gap-4">
           <label className="flex items-center gap-4 h-24">

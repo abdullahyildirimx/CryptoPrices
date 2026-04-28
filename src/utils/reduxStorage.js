@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  getFavoriteCoinsStorage,
-} from './localStorageUtils';
+import { getFavoriteCoinsStorage } from './localStorageUtils';
 
 const favoriteCoinsStorage = getFavoriteCoinsStorage();
 
@@ -25,9 +23,6 @@ const ReduxSlice = createSlice({
   },
 });
 
-export const {
-  setCoinData,
-  setMarketActivity,
-  setFavoriteCoins,
-} = ReduxSlice.actions;
+export const { setCoinData, setMarketActivity, setFavoriteCoins } =
+  ReduxSlice.actions;
 export default ReduxSlice.reducer;

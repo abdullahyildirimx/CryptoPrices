@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-
   return (
     <header className="grid grid-cols-4 p-16">
       <Link

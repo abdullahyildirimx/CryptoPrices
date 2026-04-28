@@ -83,10 +83,7 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
               </div>
             </div>
             <div className="text-end">
-              <div>
-                {item.currency}
-                {item.price}
-              </div>
+              <div>${item.price}</div>
               <span
                 className={`${item.change < 0 ? 'text-red3' : 'text-green3'}`}
               >

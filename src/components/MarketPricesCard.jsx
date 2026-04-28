@@ -7,9 +7,7 @@ import {
   setSelectedTabStorage,
   setFavoriteCoinsStorage,
 } from '../utils/localStorageUtils';
-import {
-  setFavoriteCoins,
-} from '../utils/reduxStorage';
+import { setFavoriteCoins } from '../utils/reduxStorage';
 import { Button } from '@base-ui/react';
 
 const MarketPricesCard = () => {
@@ -20,10 +18,7 @@ const MarketPricesCard = () => {
   });
   const [sortOrder, setSortOrder] = useState('default');
   const [searchedCoins, setSearchedCoins] = useState(null);
-  const {
-    coinData,
-    favoriteCoins,
-  } = useSelector((state) => state.dataStore);
+  const { coinData, favoriteCoins } = useSelector((state) => state.dataStore);
   const dispatch = useDispatch();
 
   const formatTitlePrice = (value) => {
@@ -42,9 +37,7 @@ const MarketPricesCard = () => {
 
   const toggleFavorite = (symbol) => {
     if (favoriteCoins.includes(symbol)) {
-      const updatedFavorites = favoriteCoins.filter(
-        (coin) => coin !== symbol,
-      );
+      const updatedFavorites = favoriteCoins.filter((coin) => coin !== symbol);
       dispatch(setFavoriteCoins(updatedFavorites));
       setFavoriteCoinsStorage(updatedFavorites);
     } else {
@@ -65,26 +58,14 @@ const MarketPricesCard = () => {
   };
 
   const sortedAllCoins = () => {
-    if (!coinData) {
-      return [];
-    }
+    if (!coinData) return [];
+
     let coins;
+
     if (searchedCoins) {
-      coins = searchedCoins
-        .map((symbol) => {
-          return (
-            coinData.find((data) => data.symbol === symbol) || null
-          );
-        })
-        .filter((coin) => coin !== null);
+      coins = coinData.filter((data) => searchedCoins.includes(data.symbol));
     } else if (selectedTab === 'favorite') {
-      coins = favoriteCoins
-        .map((symbol) => {
-          return (
-            coinData.find((data) => data.symbol === symbol) || null
-          );
-        })
-        .filter((coin) => coin !== null);
+      coins = coinData.filter((data) => favoriteCoins.includes(data.symbol));
     } else if (selectedTab === 'tradfi') {
       coins = coinData.filter((data) => data.isTradFi);
     } else {
@@ -148,13 +129,8 @@ const MarketPricesCard = () => {
       </title>
       <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
         <div className="flex items-center justify-between mb-14">
-          <h1 className="text-[18px]/[24px] md:text-[20px]">
-            Market Prices
-          </h1>
-          <SearchBar
-            handleSearch={handleSearch}
-            id={'searchCoin'}
-          />
+          <h1 className="text-[18px]/[24px] md:text-[20px]">Market Prices</h1>
+          <SearchBar handleSearch={handleSearch} id={'searchCoin'} />
         </div>
         <div className="flex items-center">
           {tabs.map((tab) => (

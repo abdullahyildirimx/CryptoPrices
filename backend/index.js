@@ -35,10 +35,7 @@ const loadActivityData = async () => {
 };
 
 const saveActivityData = async () => {
-  await fs.writeFile(
-    ACTIVITY_FILE,
-    JSON.stringify(activityData, null, 2),
-  );
+  await fs.writeFile(ACTIVITY_FILE, JSON.stringify(activityData, null, 2));
 };
 
 const fetchCoinList = async () => {

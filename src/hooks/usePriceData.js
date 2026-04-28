@@ -2,11 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { setCoinData } from '../utils/reduxStorage';
-import {
-  priceUrl,
-  exchangeInfoUrl,
-  coinLogosUrl,
-} from '../utils/urls';
+import { priceUrl, exchangeInfoUrl, coinLogosUrl } from '../utils/urls';
 
 const usePriceData = () => {
   const [coinMetadata, setCoinMetadata] = useState(null);
@@ -88,7 +84,6 @@ const usePriceData = () => {
           let price = coin.lastPrice;
           const volume = coin.quoteVolume;
           const change = coin.priceChangePercent;
-          const currency = '$';
           let logo = null;
           let tickSize = null;
           let isTradFi = null;
@@ -111,7 +106,6 @@ const usePriceData = () => {
             price: price,
             volume: volume,
             change: change,
-            currency: currency,
             logo: logo,
             tickSize: tickSize,
             isTradFi: isTradFi,

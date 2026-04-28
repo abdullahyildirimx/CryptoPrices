@@ -20,9 +20,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
   };
 
   const convertedCoin = normalizeCoinName(selectedCoin)?.toUpperCase();
-  const symbol = convertedCoin
-    ? `BINANCE:${convertedCoin}USDT.P`
-    : '';
+  const symbol = convertedCoin ? `BINANCE:${convertedCoin}USDT.P` : '';
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
   return (
