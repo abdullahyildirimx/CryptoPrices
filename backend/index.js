@@ -173,31 +173,11 @@ const fetchMarketPrices = async () => {
 
 const fetchMarketActivity = async () => {
   try {
-    if (!priceData) {
+    if (!priceData || !marketPrices) {
       return;
     }
-    const response = await fetch(priceUrl);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const jsonData = await response.json();
+    const prices = marketPrices;
 
-    const currentTime = Date.now();
-    const filteredCoins = jsonData.filter((coin) => {
-      return (
-        coin.symbol.endsWith('USDT') && currentTime <= coin.closeTime + 1800000
-      );
-    });
-
-    const prices = filteredCoins.map((item) => {
-      let symbol = item.symbol;
-      const price = parseFloat(item.lastPrice);
-      symbol = symbol.slice(0, -'USDT'.length);
-      return {
-        symbol: symbol,
-        price: price,
-      };
-    });
     let resultArray = [];
     const newPriceData = priceData.slice();
     newPriceData.forEach((coin, i) => {
