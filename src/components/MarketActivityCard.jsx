@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Tooltip } from 'react-tooltip';
 import {
   getShowOnlyFavoritesStorage,
   setShowOnlyFavoritesStorage,
 } from '../utils/localStorageUtils';
 import MarketActivity from './MarketActivity';
 import { getLogoFromUrl } from '../utils/urls';
-import { Checkbox } from '@base-ui/react';
+import { Checkbox, Popover } from '@base-ui/react';
 import SearchBar from './SearchBar';
 
 const MarketActivityCard = () => {
@@ -73,10 +72,20 @@ const MarketActivityCard = () => {
               Market <br className="md:hidden" />
               Activity
             </h1>
-            <i
-              className="fa-regular fa-circle-question"
-              data-tooltip-id="infoTooltip1"
-            ></i>
+            <Popover.Root>
+              <Popover.Trigger openOnHover delay={150} className="flex">
+                <i className="fa-regular fa-circle-question" />
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Positioner sideOffset={8}>
+                  <Popover.Popup className="flex w-200 flex-col gap-1 bg-black text-white text-[13px] rounded-sm px-16 py-8 transition-all duration-100 ease-in-out data-starting-style:opacity-0 data-ending-style:opacity-0">
+                    5 minutes unusual price activity. For BTC, ETH, XAU and XAG,
+                    it is triggered when price is changed over 1%, for other
+                    coins it is 3%.
+                  </Popover.Popup>
+                </Popover.Positioner>
+              </Popover.Portal>
+            </Popover.Root>
           </div>
           <SearchBar handleSearch={handleSearch} id={'searchActivity'} />
         </div>
@@ -100,26 +109,22 @@ const MarketActivityCard = () => {
             </Checkbox.Root>
             Show only favorites
           </label>
-          <i
-            className="fa-regular fa-circle-question"
-            data-tooltip-id="infoTooltip2"
-          ></i>
+          <Popover.Root>
+            <Popover.Trigger openOnHover delay={150} className="flex">
+              <i className="fa-regular fa-circle-question" />
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Positioner sideOffset={8}>
+                <Popover.Popup className="flex w-200 flex-col gap-1 bg-black text-white text-[13px] rounded-sm px-16 py-8 transition-all duration-100 ease-in-out data-starting-style:opacity-0 data-ending-style:opacity-0">
+                  If 'Show only favorites' is unchecked, you may see many
+                  activities. The latest maximum of 1000 activities is displayed
+                  at once.
+                </Popover.Popup>
+              </Popover.Positioner>
+            </Popover.Portal>
+          </Popover.Root>
         </div>
       </div>
-      <Tooltip
-        className="w-200! bg-black! opacity-100!"
-        id="infoTooltip1"
-        place="bottom"
-        variant="dark"
-        content="5 minutes unusual price activity. For BTC, ETH, XAU and XAG, it is triggered when price is changed over 1%, for other coins it is 3%."
-      />
-      <Tooltip
-        className="w-200! bg-black! opacity-100!"
-        id="infoTooltip2"
-        place="bottom"
-        variant="dark"
-        content="If 'Show only favorites' is unchecked, you may see many activities. The latest maximum of 1000 activities is displayed at once."
-      />
       <div
         className={`h-274 md:h-[calc(100vh-229px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length ? 'flex justify-center items-center' : ''}`}
       >
