@@ -53,7 +53,7 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
           onClick={() => handleOpenChart(item.symbol)}
         >
           <div className="flex justify-between items-center">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-8">
               <Button
                 className="w-20 h-20"
                 aria-label="favorite-button"
@@ -66,7 +66,7 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
                 )}
               </Button>
               <img
-                className="mx-8 rounded-full"
+                className="rounded-full"
                 src={getLogo(item)}
                 alt={item.symbol}
                 width={24}
@@ -76,19 +76,17 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
                 }}
               />
               <div className="flex flex-col">
-                <div className="flex items-center">{item.symbol}</div>
-                <div className="flex text-grey1 items-center">
-                  {formatVolume(item.volume)}
-                </div>
+                <div>{item.symbol}</div>
+                <div className="text-grey1">{formatVolume(item.volume)}</div>
               </div>
             </div>
-            <div className="text-end">
+            <div className="flex flex-col items-end">
               <div>${item.price}</div>
-              <span
+              <div
                 className={`${item.change < 0 ? 'text-red3' : 'text-green3'}`}
               >
                 {formatChange(item.change)}
-              </span>
+              </div>
             </div>
           </div>
         </div>

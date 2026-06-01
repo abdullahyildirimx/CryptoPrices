@@ -103,9 +103,8 @@ const MarketPricesCard = () => {
   };
 
   const handleSearch = (value) => {
-    if (!coinData) {
-      return [];
-    }
+    if (!coinData) return;
+
     if (value) {
       const filteredResults = coinData
         .filter((item) =>
@@ -129,7 +128,7 @@ const MarketPricesCard = () => {
       </title>
       <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
         <div className="flex items-center justify-between mb-14">
-          <h1 className="text-[18px]/[24px] md:text-[20px]">Market Prices</h1>
+          <h1 className="text-[18px] md:text-[20px]">Market Prices</h1>
           <SearchBar handleSearch={handleSearch} id={'searchCoin'} />
         </div>
         <div className="flex items-center">
@@ -157,7 +156,7 @@ const MarketPricesCard = () => {
           ))}
         </div>
         <div className="relative w-full h-2 bg-grey2 rounded-full">
-          <span
+          <div
             className={`
               absolute top-0 w-20 h-2 rounded-full bg-white1
               transition-all duration-300 ease-in-out
@@ -171,15 +170,15 @@ const MarketPricesCard = () => {
             `}
           />
         </div>
-        <div className="text-[11px]/[16px] md:text-[14px]/[21px] px-8 py-12 ml-60 flex justify-between items-center">
+        <div className="text-[11px]/[16px] md:text-[14px]/[21px] pl-68 pr-8 py-12 flex justify-between items-center">
           <div className="flex items-center">
-            <span
+            <div
               className={
                 sortOrder.includes('symbol') ? 'text-white1' : 'text-grey1'
               }
             >
               Coin
-            </span>
+            </div>
             <Button
               aria-label="symbol-sort-button"
               onClick={() => toggleSortOrder('symbol')}
@@ -193,14 +192,14 @@ const MarketPricesCard = () => {
                 <i className="fa-solid fa-sort text-grey1"></i>
               )}
             </Button>
-            <span className="text-grey1">/</span>
-            <span
+            <div className="text-grey1">/</div>
+            <div
               className={
                 sortOrder.includes('volume') ? 'text-white1' : 'text-grey1'
               }
             >
               Volume
-            </span>
+            </div>
             <Button
               aria-label="volume-sort-button"
               onClick={() => toggleSortOrder('volume')}
@@ -215,14 +214,14 @@ const MarketPricesCard = () => {
               )}
             </Button>
           </div>
-          <div className="flex items-center text-end">
-            <span
+          <div className="flex items-center">
+            <div
               className={
                 sortOrder.includes('price') ? 'text-white1' : 'text-grey1'
               }
             >
               Price
-            </span>
+            </div>
             <Button
               aria-label="price-sort-button"
               onClick={() => toggleSortOrder('price')}
@@ -236,14 +235,14 @@ const MarketPricesCard = () => {
                 <i className="fa-solid fa-sort text-grey1"></i>
               )}
             </Button>
-            <span className="text-grey1">/</span>
-            <span
+            <div className="text-grey1">/</div>
+            <div
               className={
                 sortOrder.includes('change') ? 'text-white1' : 'text-grey1'
               }
             >
               Change
-            </span>
+            </div>
             <Button
               aria-label="change-sort-button"
               onClick={() => toggleSortOrder('change')}
@@ -265,7 +264,9 @@ const MarketPricesCard = () => {
               <div className="h-full flex justify-center items-center">
                 No results found.
               </div>
-            ) : selectedTab === 'favorite' && !favoriteCoins.length ? (
+            ) : selectedTab === 'favorite' &&
+              !favoriteCoins.length &&
+              !coins?.length ? (
               <div className="h-full flex justify-center items-center">
                 You don&apos;t have any favorite coins.
               </div>

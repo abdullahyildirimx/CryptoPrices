@@ -47,11 +47,6 @@ button {
   background: #1e2329;
 }
 
-::-webkit-scrollbar-track {
-  border-radius: 5px;
-  background: #1e2329;
-}
-
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 5px;

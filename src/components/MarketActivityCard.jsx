@@ -43,7 +43,7 @@ const MarketActivityCard = () => {
   };
 
   const handleSearch = (value) => {
-    if (!marketActivity) return [];
+    if (!marketActivity) return;
 
     if (value) {
       const filteredResults = Array.from(
@@ -66,9 +66,9 @@ const MarketActivityCard = () => {
   return (
     <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
       <div className={`flex flex-col justify-between`}>
-        <div className="flex justify-between mb-14">
+        <div className="flex items-center justify-between mb-14">
           <div className="flex items-center gap-4">
-            <h1 className="text-[18px]/[24px] md:text-[20px]/[35px]">
+            <h1 className="text-[18px]/[24px] md:text-[20px]">
               Market <br className="md:hidden" />
               Activity
             </h1>
