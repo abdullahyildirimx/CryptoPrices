@@ -49,14 +49,13 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
       {coins.map((item) => (
         <div
           key={item.symbol}
-          className="p-8 rounded-lg font-semibold hover:bg-gray-800 hover:cursor-pointer"
+          className="p-8 rounded-lg font-semibold hover:bg-greyhover hover:cursor-pointer"
           onClick={() => handleOpenChart(item.symbol)}
         >
           <div className="flex justify-between items-center">
             <div className="flex justify-between items-center gap-8">
               <Button
                 className="w-20 h-20"
-                aria-label="favorite-button"
                 onClick={(e) => handleToggleFavorite(e, item.symbol)}
               >
                 {favoriteCoins.includes(item.symbol) ? (

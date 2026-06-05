@@ -20,7 +20,7 @@ const MarketActivity = ({ activity }) => {
       {activity.map((item, index) => (
         <div
           key={index}
-          className="flex justify-between items-center p-8 font-semibold rounded-lg hover:bg-gray-800 hover:cursor-pointer"
+          className="flex justify-between items-center p-8 font-semibold rounded-lg hover:bg-greyhover hover:cursor-pointer"
           onClick={() => handleOpenChart(item.symbol)}
         >
           <div className="flex justify-between items-center gap-8">

@@ -171,19 +171,18 @@ const MarketPricesCard = () => {
           />
         </div>
         <div className="text-[11px]/[16px] md:text-[14px]/[21px] pl-68 pr-8 py-12 flex justify-between items-center">
-          <div className="flex items-center">
-            <div
-              className={
-                sortOrder.includes('symbol') ? 'text-white1' : 'text-grey1'
-              }
-            >
-              Coin
-            </div>
+          <div className="flex items-center gap-2">
             <Button
-              aria-label="symbol-sort-button"
               onClick={() => toggleSortOrder('symbol')}
               className="flex justify-center items-center"
             >
+              <div
+                className={
+                  sortOrder.includes('symbol') ? 'text-white1' : 'text-grey1'
+                }
+              >
+                Coin
+              </div>
               {sortOrder === 'symbolAsc' ? (
                 <i className="fa-solid fa-sort-up text-white1"></i>
               ) : sortOrder === 'symbolDesc' ? (
@@ -193,18 +192,17 @@ const MarketPricesCard = () => {
               )}
             </Button>
             <div className="text-grey1">/</div>
-            <div
-              className={
-                sortOrder.includes('volume') ? 'text-white1' : 'text-grey1'
-              }
-            >
-              Volume
-            </div>
             <Button
-              aria-label="volume-sort-button"
               onClick={() => toggleSortOrder('volume')}
               className="flex justify-center items-center"
             >
+              <div
+                className={
+                  sortOrder.includes('volume') ? 'text-white1' : 'text-grey1'
+                }
+              >
+                Volume
+              </div>
               {sortOrder === 'volumeAsc' ? (
                 <i className="fa-solid fa-sort-up text-white1"></i>
               ) : sortOrder === 'volumeDesc' ? (
@@ -214,19 +212,18 @@ const MarketPricesCard = () => {
               )}
             </Button>
           </div>
-          <div className="flex items-center">
-            <div
-              className={
-                sortOrder.includes('price') ? 'text-white1' : 'text-grey1'
-              }
-            >
-              Price
-            </div>
+          <div className="flex items-center gap-2">
             <Button
-              aria-label="price-sort-button"
               onClick={() => toggleSortOrder('price')}
               className="flex justify-center items-center"
             >
+              <div
+                className={
+                  sortOrder.includes('price') ? 'text-white1' : 'text-grey1'
+                }
+              >
+                Price
+              </div>
               {sortOrder === 'priceAsc' ? (
                 <i className="fa-solid fa-sort-up text-white1"></i>
               ) : sortOrder === 'priceDesc' ? (
@@ -236,18 +233,17 @@ const MarketPricesCard = () => {
               )}
             </Button>
             <div className="text-grey1">/</div>
-            <div
-              className={
-                sortOrder.includes('change') ? 'text-white1' : 'text-grey1'
-              }
-            >
-              Change
-            </div>
             <Button
-              aria-label="change-sort-button"
               onClick={() => toggleSortOrder('change')}
               className="flex justify-center items-center"
             >
+              <div
+                className={
+                  sortOrder.includes('change') ? 'text-white1' : 'text-grey1'
+                }
+              >
+                Change
+              </div>
               {sortOrder === 'changeAsc' ? (
                 <i className="fa-solid fa-sort-up text-white1"></i>
               ) : sortOrder === 'changeDesc' ? (

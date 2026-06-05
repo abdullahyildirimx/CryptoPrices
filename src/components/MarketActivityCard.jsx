@@ -92,7 +92,6 @@ const MarketActivityCard = () => {
         <div className="flex items-center mb-15 gap-4">
           <label className="flex items-center gap-4 h-24">
             <Checkbox.Root
-              aria-label="Show only favorites"
               className="
                 w-14 h-14 rounded-sm border border-grey2 
                 data-checked:border-blue-500 data-checked:bg-blue-500
