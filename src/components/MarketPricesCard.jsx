@@ -254,7 +254,7 @@ const MarketPricesCard = () => {
             </Button>
           </div>
         </div>
-        <div className="h-250 md:h-[calc(100vh-268px)] overflow-y-auto text-[12px] md:text-[14px]">
+        <div className="h-250 md:h-[calc(100vh-265px)] overflow-y-auto text-[12px] md:text-[14px]">
           {coinData ? (
             searchedCoins?.length === 0 ? (
               <div className="h-full flex justify-center items-center">

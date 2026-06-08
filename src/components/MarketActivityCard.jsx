@@ -130,7 +130,7 @@ const MarketActivityCard = () => {
         </div>
       </div>
       <div
-        className={`h-290 md:h-[calc(100vh-221px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length && 'flex justify-center items-center'}`}
+        className={`h-290 md:h-[calc(100vh-220px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length && 'flex justify-center items-center'}`}
       >
         {marketActivity ? (
           searchedCoins?.length === 0 ? (
