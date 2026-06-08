@@ -8,7 +8,7 @@ const HomePage = () => {
   useMarketActivity();
 
   return (
-    <main className="p-16 grid grid-cols-1 md:grid-cols-2 gap-16">
+    <main className="px-16 pt-8 pb-16 grid grid-cols-1 md:grid-cols-2 gap-16">
       <MarketPricesCard />
       <MarketActivityCard />
     </main>

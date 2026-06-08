@@ -64,16 +64,17 @@ const MarketActivityCard = () => {
   const activity = filterActivities();
 
   return (
-    <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
+    <div className="bg-black1 rounded-2xl p-16 text-white1 font-medium border border-grey2">
       <div className={`flex flex-col justify-between`}>
         <div className="flex items-center justify-between mb-14">
           <div className="flex items-center gap-4">
-            <h1 className="text-[18px]/[24px] md:text-[20px]">
-              Market <br className="md:hidden" />
-              Activity
-            </h1>
+            <h1 className="text-[16px] md:text-[20px]">Market Activity</h1>
             <Popover.Root>
-              <Popover.Trigger openOnHover delay={150} className="flex">
+              <Popover.Trigger
+                openOnHover
+                delay={150}
+                className="flex text-[13px] md:text-[14px]"
+              >
                 <i className="fa-regular fa-circle-question" />
               </Popover.Trigger>
               <Popover.Portal>
@@ -89,8 +90,8 @@ const MarketActivityCard = () => {
           </div>
           <SearchBar handleSearch={handleSearch} id={'searchActivity'} />
         </div>
-        <div className="flex items-center mb-15 gap-4">
-          <label className="flex items-center gap-4 h-24">
+        <div className="flex items-center mb-12 md:mb-15 gap-4">
+          <label className="flex items-center gap-4 h-24 text-[12px] md:text-[14px]">
             <Checkbox.Root
               className="
                 w-14 h-14 rounded-sm border border-grey2 
@@ -109,7 +110,11 @@ const MarketActivityCard = () => {
             Show only favorites
           </label>
           <Popover.Root>
-            <Popover.Trigger openOnHover delay={150} className="flex">
+            <Popover.Trigger
+              openOnHover
+              delay={150}
+              className="flex text-[13px] md:text-[14px]"
+            >
               <i className="fa-regular fa-circle-question" />
             </Popover.Trigger>
             <Popover.Portal>
@@ -125,7 +130,7 @@ const MarketActivityCard = () => {
         </div>
       </div>
       <div
-        className={`h-274 md:h-[calc(100vh-229px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length ? 'flex justify-center items-center' : ''}`}
+        className={`h-290 md:h-[calc(100vh-221px)] text-[12px] md:text-[14px] overflow-y-auto ${!activity.length && 'flex justify-center items-center'}`}
       >
         {marketActivity ? (
           searchedCoins?.length === 0 ? (

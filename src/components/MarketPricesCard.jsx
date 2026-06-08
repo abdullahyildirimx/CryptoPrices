@@ -126,9 +126,9 @@ const MarketPricesCard = () => {
           ? `${formatTitlePrice(coinData?.find((item) => item.symbol === 'BTC')?.price)} | CryptoPrices`
           : 'CryptoPrices'}
       </title>
-      <div className="bg-black1 rounded-2xl p-16 text-white1 text-[14px] font-medium border border-grey2">
+      <div className="bg-black1 rounded-2xl p-16 text-white1 font-medium border border-grey2">
         <div className="flex items-center justify-between mb-14">
-          <h1 className="text-[18px] md:text-[20px]">Market Prices</h1>
+          <h1 className="text-[16px] md:text-[20px]">Market Prices</h1>
           <SearchBar handleSearch={handleSearch} id={'searchCoin'} />
         </div>
         <div className="flex items-center">
@@ -139,7 +139,7 @@ const MarketPricesCard = () => {
                 handleTabChange(tab);
               }}
               className={`
-                px-16 py-8 font-medium transition-all duration-150 ease-in-out
+                px-16 py-8 text-[12px] md:text-[14px] font-medium transition-all duration-150 ease-in-out
                 ${
                   selectedTab === tab
                     ? 'text-white1'
@@ -162,10 +162,10 @@ const MarketPricesCard = () => {
               transition-all duration-300 ease-in-out
               ${
                 selectedTab === 'all'
-                  ? 'translate-x-166'
+                  ? 'translate-x-152 md:translate-x-166'
                   : selectedTab === 'tradfi'
-                    ? 'translate-x-107'
-                    : 'translate-x-31'
+                    ? 'translate-x-97 md:translate-x-107'
+                    : 'translate-x-27 md:translate-x-31'
               }
             `}
           />
@@ -254,7 +254,7 @@ const MarketPricesCard = () => {
             </Button>
           </div>
         </div>
-        <div className="h-250 md:h-[calc(100vh-275px)] overflow-y-auto text-[12px] md:text-[14px]">
+        <div className="h-250 md:h-[calc(100vh-268px)] overflow-y-auto text-[12px] md:text-[14px]">
           {coinData ? (
             searchedCoins?.length === 0 ? (
               <div className="h-full flex justify-center items-center">
