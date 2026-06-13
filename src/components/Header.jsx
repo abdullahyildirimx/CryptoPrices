@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom';
-
 const Header = () => {
   return (
     <header className="p-16">
-      <Link className="flex items-center gap-8 text-white1 w-fit" to="/">
+      <a className="flex items-center gap-8 text-white1 w-fit" href="/">
         <img
           src="/android-chrome-192x192.png"
           width={40}
@@ -11,7 +9,7 @@ const Header = () => {
           alt="logo"
         />
         <div className="font-medium">CryptoPrices</div>
-      </Link>
+      </a>
     </header>
   );
 };
