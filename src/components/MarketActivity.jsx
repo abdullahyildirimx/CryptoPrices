@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ChartModal from './ChartModal';
+import { getLogoFromUrl } from '../utils/urls';
 
 const MarketActivity = ({ activity }) => {
   const [selectedCoin, setSelectedCoin] = useState(null);
@@ -15,6 +16,10 @@ const MarketActivity = ({ activity }) => {
     setSelectedCoin(null);
   };
 
+  const getLogo = (item) => {
+    return item?.logo ? getLogoFromUrl(item.logo) : '/genericicon.png';
+  };
+
   return (
     <>
       {activity.map((item, index) => (
@@ -26,7 +31,7 @@ const MarketActivity = ({ activity }) => {
           <div className="flex justify-between items-center gap-8">
             <img
               className="rounded-full"
-              src={item.logo}
+              src={getLogo(item)}
               alt={item.symbol}
               width={30}
               height={30}

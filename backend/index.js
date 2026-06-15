@@ -208,8 +208,18 @@ const fetchMarketActivity = async () => {
             const formattedNewPrice = tickSize
               ? parseFloat(currentPrice).toFixed(tickSize)
               : currentPrice;
+            let logo = null;
+            if (coinMetadata) {
+              let metadata = coinMetadata.find(
+                (data) => data.symbol === coin.symbol,
+              );
+              if (metadata) {
+                logo = metadata.logo;
+              }
+            }
             let result = {
               symbol: coin.symbol,
+              logo: logo,
               oldPrice: formattedPrevPrice,
               newPrice: formattedNewPrice,
               change: parseFloat(((rate - 1) * 100).toFixed(2)),

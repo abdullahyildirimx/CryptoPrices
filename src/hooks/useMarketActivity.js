@@ -18,6 +18,7 @@ const useMarketActivity = () => {
           const newPrice = coin.newPrice;
           const change = coin.change;
           const time = new Date(coin.time).toLocaleTimeString();
+          const logo = coin.logo;
 
           return {
             symbol: symbol,
@@ -25,6 +26,7 @@ const useMarketActivity = () => {
             newPrice: newPrice,
             change: change,
             time: time,
+            logo: logo,
           };
         });
         dispatch(setMarketActivity(activityList));

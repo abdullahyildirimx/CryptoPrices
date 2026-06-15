@@ -155,7 +155,7 @@ const MarketPricesCard = () => {
             </Button>
           ))}
         </div>
-        <div className="relative w-full h-2 bg-grey2 rounded-full">
+        <div className="relative h-2 bg-grey2 rounded-full">
           <div
             className={`
               absolute top-0 w-20 h-2 rounded-full bg-white1
@@ -254,18 +254,14 @@ const MarketPricesCard = () => {
             </Button>
           </div>
         </div>
-        <div className="h-250 md:h-[calc(100vh-265px)] overflow-y-auto text-[12px] md:text-[14px]">
+        <div
+          className={`h-250 md:h-[calc(100vh-265px)] overflow-y-auto text-[12px] md:text-[14px] ${!coins?.length && 'flex justify-center items-center'}`}
+        >
           {coinData ? (
             searchedCoins?.length === 0 ? (
-              <div className="h-full flex justify-center items-center">
-                No results found.
-              </div>
-            ) : selectedTab === 'favorite' &&
-              !favoriteCoins.length &&
-              !coins?.length ? (
-              <div className="h-full flex justify-center items-center">
-                You don&apos;t have any favorite coins.
-              </div>
+              <p>No results found.</p>
+            ) : selectedTab === 'favorite' && !coins?.length ? (
+              <p>You don&apos;t have any favorite coins.</p>
             ) : (
               <CoinTable
                 coins={coins}
@@ -274,9 +270,7 @@ const MarketPricesCard = () => {
               />
             )
           ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="w-36 h-36 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
-            </div>
+            <div className="w-36 h-36 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
           )}
         </div>
       </div>

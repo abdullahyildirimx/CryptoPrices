@@ -5,7 +5,6 @@ import {
   setShowOnlyFavoritesStorage,
 } from '../utils/localStorageUtils';
 import MarketActivity from './MarketActivity';
-import { getLogoFromUrl } from '../utils/urls';
 import { Checkbox, Popover } from '@base-ui/react';
 import SearchBar from './SearchBar';
 
@@ -14,7 +13,7 @@ const MarketActivityCard = () => {
     getShowOnlyFavoritesStorage() || false,
   );
   const [searchedCoins, setSearchedCoins] = useState(null);
-  const { coinData, marketActivity, favoriteCoins } = useSelector(
+  const { marketActivity, favoriteCoins } = useSelector(
     (state) => state.dataStore,
   );
 
@@ -23,23 +22,14 @@ const MarketActivityCard = () => {
     setShowOnlyFavoritesStorage(value);
   };
 
-  const getLogo = (symbol) => {
-    const url = coinData?.find((data) => data.symbol === symbol)?.logo;
-    return url ? getLogoFromUrl(url) : '/genericicon.png';
-  };
-
   const filterActivities = () => {
     if (!marketActivity) return [];
 
-    const base = searchedCoins
+    return searchedCoins
       ? marketActivity.filter((item) => searchedCoins.includes(item.symbol))
       : showFavorites
         ? marketActivity.filter((item) => favoriteCoins.includes(item.symbol))
         : marketActivity.slice(0, 1000);
-    return base.map((item) => ({
-      ...item,
-      logo: getLogo(item.symbol),
-    }));
   };
 
   const handleSearch = (value) => {
@@ -134,9 +124,7 @@ const MarketActivityCard = () => {
       >
         {marketActivity ? (
           searchedCoins?.length === 0 ? (
-            <div className="flex justify-center items-center">
-              No results found.
-            </div>
+            <p>No results found.</p>
           ) : (
             <>
               <MarketActivity activity={activity} />
@@ -149,9 +137,7 @@ const MarketActivityCard = () => {
             </>
           )
         ) : (
-          <div className="flex items-center justify-center h-full">
-            <div className="w-36 h-36 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
-          </div>
+          <div className="w-36 h-36 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
         )}
       </div>
     </div>

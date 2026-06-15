@@ -44,7 +44,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
               <i className="fa-solid fa-xmark text-[16px]" />
             </Dialog.Close>
           </div>
-          <div className="p-24 w-full flex-1 min-h-0 relative">
+          <div className="p-24 w-full flex-1 relative">
             {selectedCoin ? (
               <>
                 {loading && (
