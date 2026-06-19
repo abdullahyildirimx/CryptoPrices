@@ -4,6 +4,8 @@ import axios from 'axios';
 import { setCoinData } from '../utils/reduxStorage';
 import { priceDataUrl } from '../utils/urls';
 
+const PRICE_INTERVAL = 5000;
+
 const useMarketActivity = () => {
   const dispatch = useDispatch();
 
@@ -13,20 +15,13 @@ const useMarketActivity = () => {
         const response = await axios.get(priceDataUrl);
         const jsonData = response.data;
         const priceList = jsonData.map((coin) => {
-          const symbol = coin.symbol;
-          const price = coin.price;
-          const volume = coin.volume;
-          const change = coin.change;
-          const logo = coin.logo;
-          const isTradFi = coin.isTradFi;
-
           return {
-            symbol: symbol,
-            price: price,
-            volume: volume,
-            change: change,
-            logo: logo,
-            isTradFi: isTradFi,
+            symbol: coin.symbol,
+            price: coin.price,
+            volume: coin.volume,
+            change: coin.change,
+            logo: coin.logo,
+            isTradFi: coin.isTradFi,
           };
         });
         dispatch(setCoinData(priceList));
@@ -36,7 +31,7 @@ const useMarketActivity = () => {
     };
 
     fetchPriceData();
-    const intervalId = setInterval(fetchPriceData, 5000);
+    const intervalId = setInterval(fetchPriceData, PRICE_INTERVAL);
     return () => clearInterval(intervalId);
   }, [dispatch]);
 };
