@@ -26,7 +26,7 @@ const useMarketActivity = () => {
         });
         dispatch(setCoinData(priceList));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching market prices:', error);
       }
     };
 

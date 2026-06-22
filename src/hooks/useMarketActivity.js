@@ -26,7 +26,7 @@ const useMarketActivity = () => {
         });
         dispatch(setMarketActivity(activityList));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching market activity:', error);
       }
     };
 

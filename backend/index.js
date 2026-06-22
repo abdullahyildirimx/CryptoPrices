@@ -119,7 +119,7 @@ const fetchCoinList = async () => {
       };
     });
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching coin list:', error);
   }
 };
 
@@ -167,7 +167,7 @@ const fetchMarketPrices = async () => {
       };
     });
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching market prices:', error);
   }
 };
 
@@ -240,7 +240,7 @@ const fetchMarketActivity = async () => {
     }
     priceData = newPriceData;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching market activity:', error);
   }
 };
 
@@ -259,21 +259,21 @@ setInterval(fetchMarketPrices, marketPricesDelta);
 setInterval(fetchMarketActivity, activityDelta);
 setInterval(purgeData, purgeControlDelta);
 
-app.get('/', function (_, res) {
+app.get('/', (_, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', '*');
   res.status(200).send('Hello!');
 });
 
-app.get('/price', function (_, res) {
+app.get('/price', (_, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', '*');
   res.status(200).send(marketPrices);
 });
 
-app.get('/activity', function (_, res) {
+app.get('/activity', (_, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', '*');
@@ -294,10 +294,10 @@ app.get('/logo', async (req, res) => {
     res.set('Content-Type', 'image/png');
     res.set('Cache-Control', 'public, max-age=2592000, immutable');
     res.status(200).send(buffer);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).send('Error fetching image');
   }
 });
 
-app.listen(5000, function () {});
+app.listen(5000);
