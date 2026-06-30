@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { getLogoFromUrl } from '../utils/urls';
-import ChartModal from './ChartModal';
 import { Button } from '@base-ui/react';
+import { setSelectedCoin } from '../utils/reduxStorage';
+import { useDispatch } from 'react-redux';
 
 const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
-  const [selectedCoin, setSelectedCoin] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const handleToggleFavorite = (e, symbol) => {
     e.stopPropagation();
@@ -13,13 +12,7 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
   };
 
   const handleOpenChart = (symbol) => {
-    setSelectedCoin(symbol);
-    setIsOpen(true);
-  };
-
-  const handleCloseChart = () => {
-    setIsOpen(false);
-    setSelectedCoin(null);
+    dispatch(setSelectedCoin(symbol));
   };
 
   const getLogo = (item) => {
@@ -90,11 +83,6 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
           </div>
         </div>
       ))}
-      <ChartModal
-        isOpen={isOpen}
-        onOpenChange={handleCloseChart}
-        selectedCoin={selectedCoin}
-      />
     </>
   );
 };

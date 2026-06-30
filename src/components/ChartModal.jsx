@@ -1,8 +1,9 @@
-import { Dialog } from '@base-ui/react/dialog';
+import { Button, Dialog } from '@base-ui/react';
 import { useState } from 'react';
 
 const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   const COIN_NAME_MAP = {
     币安人生: 'BIANRENSHENG',
@@ -17,6 +18,23 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
   const handleOpenChange = (open) => {
     if (!open) setLoading(true);
     onOpenChange(open);
+  };
+
+  const handleCopyLink = async () => {
+    if (!selectedCoin) return;
+
+    const url = `${window.location.origin}${window.location.pathname}?coin=${selectedCoin.toUpperCase()}`;
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+    }
   };
 
   const convertedCoin = normalizeCoinName(selectedCoin)?.toUpperCase();
@@ -37,9 +55,21 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
           "
         >
           <div className="flex items-center justify-between px-24 py-16 border-b border-neutral-800">
-            <Dialog.Title className="text-[20px] font-medium">
-              {selectedCoin ? `${selectedCoin} Chart` : 'Chart'}
-            </Dialog.Title>
+            <div className='flex items-center gap-6'>
+              <Dialog.Title className="text-[16px] md:text-[20px] font-medium">
+                {selectedCoin ? `${selectedCoin.toUpperCase()} Chart` : 'Chart'}
+              </Dialog.Title>
+              {selectedCoin && (
+                <Button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className="flex items-center w-120 md:w-135 gap-6 text-[12px] md:text-[14px] rounded-md px-8 py-6 text-white-65 hover:text-white1 transition-all duration-150 ease-in-out"
+                >
+                  <i className='fa-solid fa-link' />
+                  {copied ? 'Copied!' : 'Copy chart link'}
+                </Button>
+              )}
+            </div>
             <Dialog.Close className="p-8 rounded-md">
               <i className="fa-solid fa-xmark text-[16px]" />
             </Dialog.Close>

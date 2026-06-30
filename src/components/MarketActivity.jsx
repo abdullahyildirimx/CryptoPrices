@@ -1,19 +1,12 @@
-import { useState } from 'react';
-import ChartModal from './ChartModal';
+import { useDispatch } from 'react-redux';
+import { setSelectedCoin } from '../utils/reduxStorage';
 import { getLogoFromUrl } from '../utils/urls';
 
 const MarketActivity = ({ activity }) => {
-  const [selectedCoin, setSelectedCoin] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const handleOpenChart = (symbol) => {
-    setSelectedCoin(symbol);
-    setIsOpen(true);
-  };
-
-  const handleCloseChart = () => {
-    setIsOpen(false);
-    setSelectedCoin(null);
+    dispatch(setSelectedCoin(symbol));
   };
 
   const getLogo = (item) => {
@@ -59,11 +52,6 @@ const MarketActivity = ({ activity }) => {
           </div>
         </div>
       ))}
-      <ChartModal
-        isOpen={isOpen}
-        onOpenChange={handleCloseChart}
-        selectedCoin={selectedCoin}
-      />
     </>
   );
 };
