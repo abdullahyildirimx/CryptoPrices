@@ -55,7 +55,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
           "
         >
           <div className="flex items-center justify-between px-24 py-16 border-b border-neutral-800">
-            <div className='flex items-center gap-6'>
+            <div className="flex items-center gap-6">
               <Dialog.Title className="text-[16px] md:text-[20px] font-medium">
                 {selectedCoin ? `${selectedCoin.toUpperCase()} Chart` : 'Chart'}
               </Dialog.Title>
@@ -65,7 +65,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
                   onClick={handleCopyLink}
                   className="flex items-center w-120 md:w-135 gap-6 text-[12px] md:text-[14px] rounded-md px-8 py-6 text-white-65 hover:text-white1 transition-all duration-150 ease-in-out"
                 >
-                  <i className='fa-solid fa-link' />
+                  <i className="fa-solid fa-link" />
                   {copied ? 'Copied!' : 'Copy chart link'}
                 </Button>
               )}

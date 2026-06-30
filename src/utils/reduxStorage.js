@@ -28,6 +28,10 @@ const ReduxSlice = createSlice({
   },
 });
 
-export const { setCoinData, setMarketActivity, setFavoriteCoins, setSelectedCoin } =
-  ReduxSlice.actions;
+export const {
+  setCoinData,
+  setMarketActivity,
+  setFavoriteCoins,
+  setSelectedCoin,
+} = ReduxSlice.actions;
 export default ReduxSlice.reducer;
