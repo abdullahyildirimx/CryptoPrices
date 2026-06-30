@@ -63,7 +63,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
                 <Button
                   type="button"
                   onClick={handleCopyLink}
-                  className="flex items-center w-120 md:w-135 gap-6 text-[10px] md:text-[12px] text-white-65 hover:text-white1 transition-all duration-150 ease-in-out"
+                  className="flex items-center w-120 md:w-135 gap-4 text-[10px] md:text-[12px] text-white-65 hover:text-white1 transition-all duration-150 ease-in-out"
                 >
                   <i className="fa-solid fa-link" />
                   {copied ? 'Copied!' : 'Copy chart link'}
