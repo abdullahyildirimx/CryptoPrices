@@ -54,27 +54,27 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
             text-white1
           "
         >
-          <div className="flex items-center justify-between px-24 py-16 border-b border-neutral-800">
-            <div className="flex items-center gap-16">
+          <div className="flex flex-col gap-4 px-20 py-16 border-b border-neutral-800">
+            <div className="flex items-center justify-between">
               <Dialog.Title className="text-[16px] md:text-[20px] font-medium">
                 {selectedCoin ? `${selectedCoin.toUpperCase()} Chart` : 'Chart'}
               </Dialog.Title>
-              {selectedCoin && (
-                <Button
-                  type="button"
-                  onClick={handleCopyLink}
-                  className="flex items-center w-120 md:w-135 gap-4 text-[10px] md:text-[12px] text-white-65 hover:text-white1 transition-all duration-150 ease-in-out"
-                >
-                  <i className="fa-solid fa-link" />
-                  {copied ? 'Copied!' : 'Copy chart link'}
-                </Button>
-              )}
+              <Dialog.Close className="p-8 rounded-md">
+                <i className="fa-solid fa-xmark text-[16px]" />
+              </Dialog.Close>
             </div>
-            <Dialog.Close className="p-8 rounded-md">
-              <i className="fa-solid fa-xmark text-[16px]" />
-            </Dialog.Close>
+            {selectedCoin && (
+              <Button
+                type="button"
+                onClick={handleCopyLink}
+                className="flex items-center w-120 md:w-135 gap-4 text-[10px] md:text-[12px] text-white-65 hover:text-white1 transition-all duration-150 ease-in-out"
+              >
+                <i className="fa-solid fa-link" />
+                {copied ? 'Copied!' : 'Copy chart link'}
+              </Button>
+            )}
           </div>
-          <div className="p-24 w-full flex-1 relative">
+          <div className="p-20 w-full flex-1 relative">
             {selectedCoin ? (
               <>
                 {loading && (
