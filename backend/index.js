@@ -17,6 +17,8 @@ const priceUrl = 'https://fapi.binance.com/fapi/v1/ticker/24hr';
 const exchangeInfoUrl = 'https://fapi.binance.com/fapi/v1/exchangeInfo';
 const coinLogosUrl =
   'https://www.binance.com/bapi/apex/v1/public/apex/marketing/futures/asset/logo';
+const tradFiInfoUrl =
+  'https://www.binance.com/bapi/apex/v1/public/apex/marketing/trad-fi/token/list';
 
 const coinListDelta = 300000;
 const marketPricesDelta = 5000;
@@ -74,6 +76,13 @@ const fetchCoinList = async () => {
     const jsonData2 = await response2.json();
     const logoData = jsonData2.data;
 
+    const response3 = await fetch(tradFiInfoUrl);
+    if (!response3.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const jsonData3 = await response3.json();
+    const tradfiData = jsonData3.data;
+
     const filteredCoins = jsonData.symbols.filter((coin) => {
       return coin.symbol.endsWith('USDT') && coin.status === 'TRADING';
     });
@@ -83,12 +92,16 @@ const fetchCoinList = async () => {
         const symbol = item.symbol.slice(0, -'USDT'.length);
         const tickSize = countDecimalPlaces(item.filters[0].tickSize);
         const isTradFi = item.contractType === 'TRADIFI_PERPETUAL';
+        const tradFiName = isTradFi
+          ? tradfiData.find((asset) => asset.alias === symbol)?.sb
+          : undefined;
         const logo = logoData.find((coin) => coin?.asset === symbol)?.logo;
 
         return {
           symbol: symbol,
           tickSize: tickSize,
           isTradFi: isTradFi,
+          tradFiName: tradFiName,
           logo: logo,
         };
       })
@@ -144,6 +157,7 @@ const fetchMarketPrices = async () => {
       const change = coin.priceChangePercent;
       let logo = null;
       let isTradFi = null;
+      let tradFiName = null;
 
       if (coinMetadata) {
         let metadata = coinMetadata.find((coin) => coin.symbol === symbol);
@@ -152,6 +166,7 @@ const fetchMarketPrices = async () => {
           price = parseFloat(price).toFixed(tickSizeDecimals);
           logo = metadata.logo;
           isTradFi = metadata.isTradFi;
+          tradFiName = metadata.tradFiName;
         }
       } else {
         price = parseFloat(price);
@@ -164,6 +179,7 @@ const fetchMarketPrices = async () => {
         change: change,
         logo: logo,
         isTradFi: isTradFi,
+        tradFiName: tradFiName,
       };
     });
   } catch (error) {

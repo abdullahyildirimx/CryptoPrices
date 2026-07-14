@@ -106,11 +106,17 @@ const MarketPricesCard = () => {
     if (!coinData) return;
 
     if (value) {
+      const search = value.toLowerCase();
+
       const filteredResults = coinData
-        .filter((item) =>
-          item.symbol.toLowerCase().includes(value.toLowerCase()),
+        .filter(
+          (item) =>
+            item.symbol.toLowerCase().includes(search) ||
+            (item.isTradFi &&
+              item.tradFiName?.toLowerCase().includes(search)),
         )
         .map((item) => item.symbol);
+
       setSearchedCoins(filteredResults);
     } else {
       setSearchedCoins(null);
@@ -139,7 +145,7 @@ const MarketPricesCard = () => {
                 handleTabChange(tab);
               }}
               className={`
-                px-16 py-8 text-[12px] md:text-[14px] font-medium transition-all duration-150 ease-in-out
+                px-16 py-8 text-[12px] md:text-[14px] transition-all duration-150 ease-in-out
                 ${
                   selectedTab === tab
                     ? 'text-white1'

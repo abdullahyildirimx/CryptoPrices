@@ -68,7 +68,14 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
                 }}
               />
               <div className="flex flex-col">
-                <div>{item.symbol}</div>
+                <div className="flex items-center gap-4 max-w-150 md:max-w-180 text-grey1">
+                  <div className="text-white1">{item.symbol}</div>
+                  {item.isTradFi && (
+                    <div className="truncate text-[10px] md:text-[11px] font-medium">
+                      {`${'| '}${item.tradFiName}`}
+                    </div>
+                  )}
+                </div>
                 <div className="text-grey1">{formatVolume(item.volume)}</div>
               </div>
             </div>
