@@ -123,9 +123,7 @@ const fetchCoinList = async () => {
       });
 
     priceData = coinSymbolList.map((item) => {
-      const data =
-        priceData?.find((coin) => coin.symbol === item)?.data ||
-        Array(30).fill(0);
+      const data = priceData?.find((coin) => coin.symbol === item)?.data || [];
       return {
         symbol: item,
         data: data,
@@ -195,8 +193,7 @@ const fetchMarketActivity = async () => {
     const prices = marketPrices;
 
     let resultArray = [];
-    const newPriceData = priceData.slice();
-    newPriceData.forEach((coin, i) => {
+    priceData.forEach((coin, i) => {
       const currentCoinData = prices.find(
         (item) => item.symbol === coin.symbol,
       );
@@ -204,59 +201,63 @@ const fetchMarketActivity = async () => {
         return;
       }
       const currentPrice = parseFloat(currentCoinData.price);
-      for (let k = 0; k < newPriceData[i]['data'].length; k++) {
-        const prevPrice = newPriceData[i]['data'][k];
-        if (prevPrice !== 0) {
-          const rate = currentPrice / prevPrice;
+      const prevPrices = priceData[i]['data'];
+      if (prevPrices.length > 0) {
+        const lowestPrice = Math.min(...prevPrices);
+        const highestPrice = Math.max(...prevPrices);
+
+        const downRate = currentPrice / highestPrice;
+        const upRate = currentPrice / lowestPrice;
+        const triggerDown = bigCoinList.includes(coin.symbol)
+          ? downRate <= bigcoinTriggerLow
+          : downRate <= altcoinTriggerLow;
+        const triggerUp = bigCoinList.includes(coin.symbol)
+          ? upRate >= bigcoinTriggerHigh
+          : upRate >= altcoinTriggerHigh;
+        if (triggerDown || triggerUp) {
+          const rate = triggerDown ? downRate : upRate;
+          const tickSize = coinMetadata?.find(
+            (data) => data.symbol === coin.symbol,
+          )?.tickSize;
+          const formattedPrice = tickSize
+            ? parseFloat(currentPrice).toFixed(tickSize)
+            : currentPrice;
+          let logo = null;
+          let isTradFi = null;
+          let tradFiName = null;
           const currentTime = Date.now();
-          if (
-            (bigCoinList.includes(coin.symbol) &&
-              (rate <= bigcoinTriggerLow || rate >= bigcoinTriggerHigh)) ||
-            rate <= altcoinTriggerLow ||
-            rate >= altcoinTriggerHigh
-          ) {
-            const tickSize = coinMetadata?.find(
+          if (coinMetadata) {
+            let metadata = coinMetadata.find(
               (data) => data.symbol === coin.symbol,
-            )?.tickSize;
-            const formattedPrice = tickSize
-              ? parseFloat(currentPrice).toFixed(tickSize)
-              : currentPrice;
-            let logo = null;
-            let isTradFi = null;
-            let tradFiName = null;
-            if (coinMetadata) {
-              let metadata = coinMetadata.find(
-                (data) => data.symbol === coin.symbol,
-              );
-              if (metadata) {
-                logo = metadata.logo;
-                isTradFi = metadata.isTradFi;
-                tradFiName = metadata.tradFiName;
-              }
+            );
+            if (metadata) {
+              logo = metadata.logo;
+              isTradFi = metadata.isTradFi;
+              tradFiName = metadata.tradFiName;
             }
-            let result = {
-              symbol: coin.symbol,
-              logo: logo,
-              price: formattedPrice,
-              change: parseFloat(((rate - 1) * 100).toFixed(2)),
-              isTradFi: isTradFi,
-              tradFiName: tradFiName,
-              time: currentTime,
-            };
-            resultArray.push(result);
-            newPriceData[i]['data'] = Array(30).fill(0);
-            break;
           }
+          let result = {
+            symbol: coin.symbol,
+            logo: logo,
+            price: formattedPrice,
+            change: parseFloat(((rate - 1) * 100).toFixed(2)),
+            isTradFi: isTradFi,
+            tradFiName: tradFiName,
+            time: currentTime,
+          };
+          resultArray.push(result);
+          priceData[i]['data'] = [];
         }
       }
-      newPriceData[i]['data'].shift();
-      newPriceData[i]['data'].push(currentPrice);
+      if (priceData[i]['data'].length >= 30) {
+        priceData[i]['data'].shift();
+      }
+      priceData[i]['data'].push(currentPrice);
     });
     if (resultArray.length > 0) {
       activityData = [...resultArray, ...activityData];
       await saveActivityData();
     }
-    priceData = newPriceData;
   } catch (error) {
     console.error('Error fetching market activity:', error);
   }
