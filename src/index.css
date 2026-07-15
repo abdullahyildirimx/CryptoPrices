@@ -22,13 +22,9 @@
   --color-grey2: #495057;
   --color-greyhover: #29313d;
   --color-black1: #1e2329;
-  --color-red1: #c74242;
-  --color-red2: #3a2434;
-  --color-red3: #f6465d;
+  --color-red1: #f6465d;
   --color-gold1: #ffd700;
-  --color-green1: #0ec56b;
-  --color-green2: #1c3238;
-  --color-green3: #2ebd85;
+  --color-green1: #2ebd85;
 }
 
 button {

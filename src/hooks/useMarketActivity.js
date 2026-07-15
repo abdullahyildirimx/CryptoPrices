@@ -17,11 +17,12 @@ const useMarketActivity = () => {
         const activityList = jsonData.map((coin) => {
           return {
             symbol: coin.symbol,
-            oldPrice: coin.oldPrice,
-            newPrice: coin.newPrice,
+            price: coin.price,
             change: coin.change,
             time: new Date(coin.time).toLocaleTimeString(),
             logo: coin.logo,
+            isTradFi: coin.isTradFi,
+            tradFiName: coin.tradFiName,
           };
         });
         dispatch(setMarketActivity(activityList));

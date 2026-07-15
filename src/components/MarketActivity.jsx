@@ -33,18 +33,25 @@ const MarketActivity = ({ activity }) => {
               }}
             />
             <div className="flex flex-col">
-              <div>{item.symbol}</div>
+              <div className="flex items-center gap-4 max-w-150 md:max-w-180 text-grey1">
+                <div className="text-white1">{item.symbol}</div>
+                {item.isTradFi && (
+                  <div className="truncate text-[10px] md:text-[11px] font-medium">
+                    {`${'| '}${item.tradFiName}`}
+                  </div>
+                )}
+              </div>
               <div className="text-grey1">{item.time}</div>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-4">
+          <div className="flex flex-col items-end">
             <div
-              className={`text-[12px] rounded-[5px] font-semibold py-2 px-8 ${item.change < 0 ? 'text-red1 bg-red2' : 'text-green1 bg-green2'}`}
+              className={`text-[12px] md:text-[13px] font-semibold ${item.change < 0 ? 'text-red1' : 'text-green1'}`}
             >
-              {item.oldPrice} → {item.newPrice}
+              ${item.price}
             </div>
             <div
-              className={`text-[12px] rounded-[5px] font-semibold py-2 px-8 ${item.change < 0 ? 'text-red1 bg-red2' : 'text-green1 bg-green2'}`}
+              className={`text-[12px] md:text-[13px] font-semibold ${item.change < 0 ? 'text-red1' : 'text-green1'}`}
             >
               {item.change > 0 ? '↑' : '↓'}
               {parseFloat(item.change).toFixed(2)}%

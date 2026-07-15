@@ -82,7 +82,7 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
             <div className="flex flex-col items-end">
               <div>${item.price}</div>
               <div
-                className={`${item.change < 0 ? 'text-red3' : 'text-green3'}`}
+                className={`${item.change < 0 ? 'text-red1' : 'text-green1'}`}
               >
                 {formatChange(item.change)}
               </div>

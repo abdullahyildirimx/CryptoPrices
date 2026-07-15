@@ -218,27 +218,29 @@ const fetchMarketActivity = async () => {
             const tickSize = coinMetadata?.find(
               (data) => data.symbol === coin.symbol,
             )?.tickSize;
-            const formattedPrevPrice = tickSize
-              ? parseFloat(prevPrice).toFixed(tickSize)
-              : prevPrice;
-            const formattedNewPrice = tickSize
+            const formattedPrice = tickSize
               ? parseFloat(currentPrice).toFixed(tickSize)
               : currentPrice;
             let logo = null;
+            let isTradFi = null;
+            let tradFiName = null;
             if (coinMetadata) {
               let metadata = coinMetadata.find(
                 (data) => data.symbol === coin.symbol,
               );
               if (metadata) {
                 logo = metadata.logo;
+                isTradFi = metadata.isTradFi;
+                tradFiName = metadata.tradFiName;
               }
             }
             let result = {
               symbol: coin.symbol,
               logo: logo,
-              oldPrice: formattedPrevPrice,
-              newPrice: formattedNewPrice,
+              price: formattedPrice,
               change: parseFloat(((rate - 1) * 100).toFixed(2)),
+              isTradFi: isTradFi,
+              tradFiName: tradFiName,
               time: currentTime,
             };
             resultArray.push(result);
