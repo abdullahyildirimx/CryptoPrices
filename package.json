@@ -13,14 +13,14 @@
     "@base-ui/react": "^1.6.0",
     "@reduxjs/toolkit": "^2.12.0",
     "axios": "^1.18.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-redux": "^9.3.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "^4.3.2",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
@@ -28,7 +28,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
-    "tailwindcss": "^4.3.2",
+    "tailwindcss": "^4.3.3",
     "vite": "^8.1.5"
   }
 }
