@@ -22,7 +22,7 @@ const useMarketActivity = () => {
             change: coin.change,
             logo: coin.logo,
             isTradFi: coin.isTradFi,
-            tradFiName: coin.tradFiName,
+            fullName: coin.fullName,
           };
         });
         dispatch(setCoinData(priceList));

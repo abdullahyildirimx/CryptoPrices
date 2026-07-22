@@ -43,8 +43,7 @@ const MarketActivityCard = () => {
             .filter(
               (item) =>
                 item.symbol.toLowerCase().includes(search) ||
-                (item.isTradFi &&
-                  item.tradFiName?.toLowerCase().includes(search)),
+                item.fullName?.toLowerCase().includes(search),
             )
             .map((item) => item.symbol),
         ),
