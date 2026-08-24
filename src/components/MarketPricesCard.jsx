@@ -148,7 +148,7 @@ const MarketPricesCard = () => {
                 ${
                   selectedTab === tab
                     ? 'text-white1'
-                    : 'text-white-65 hover:text-white-80'
+                    : 'text-white/65 hover:text-white/80'
                 }
               `}
             >
