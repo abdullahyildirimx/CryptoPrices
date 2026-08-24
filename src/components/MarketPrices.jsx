@@ -3,7 +3,7 @@ import { Button } from '@base-ui/react';
 import { setSelectedCoin } from '../utils/reduxStorage';
 import { useDispatch } from 'react-redux';
 
-const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
+const MarketPrices = ({ coins, favoriteCoins, toggleFavorite }) => {
   const dispatch = useDispatch();
 
   const handleToggleFavorite = (e, symbol) => {
@@ -94,4 +94,4 @@ const CoinTable = ({ coins, favoriteCoins, toggleFavorite }) => {
   );
 };
 
-export default CoinTable;
+export default MarketPrices;

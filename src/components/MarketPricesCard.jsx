@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SearchBar from './SearchBar';
-import CoinTable from './CoinTable';
+import MarketPrices from './MarketPrices';
 import {
   getSelectedTabStorage,
   setSelectedTabStorage,
@@ -175,92 +175,94 @@ const MarketPricesCard = () => {
             `}
           />
         </div>
-        <div className="text-[11px]/[16px] md:text-[14px]/[21px] pl-68 pr-8 py-12 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={() => toggleSortOrder('symbol')}
-              className="flex justify-center items-center"
-            >
-              <div
-                className={
-                  sortOrder.includes('symbol') ? 'text-white1' : 'text-grey1'
-                }
+        {coins?.length > 0 && (
+          <div className="text-[11px]/[16px] md:text-[14px]/[21px] pl-68 pr-8 py-12 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => toggleSortOrder('symbol')}
+                className="flex justify-center items-center"
               >
-                Coin
-              </div>
-              {sortOrder === 'symbolAsc' ? (
-                <i className="fa-solid fa-sort-up text-white1"></i>
-              ) : sortOrder === 'symbolDesc' ? (
-                <i className="fa-solid fa-sort-down text-white1"></i>
-              ) : (
-                <i className="fa-solid fa-sort text-grey1"></i>
-              )}
-            </Button>
-            <div className="text-grey1">/</div>
-            <Button
-              onClick={() => toggleSortOrder('volume')}
-              className="flex justify-center items-center"
-            >
-              <div
-                className={
-                  sortOrder.includes('volume') ? 'text-white1' : 'text-grey1'
-                }
+                <div
+                  className={
+                    sortOrder.includes('symbol') ? 'text-white1' : 'text-grey1'
+                  }
+                >
+                  Coin
+                </div>
+                {sortOrder === 'symbolAsc' ? (
+                  <i className="fa-solid fa-sort-up text-white1"></i>
+                ) : sortOrder === 'symbolDesc' ? (
+                  <i className="fa-solid fa-sort-down text-white1"></i>
+                ) : (
+                  <i className="fa-solid fa-sort text-grey1"></i>
+                )}
+              </Button>
+              <div className="text-grey1">/</div>
+              <Button
+                onClick={() => toggleSortOrder('volume')}
+                className="flex justify-center items-center"
               >
-                Volume
-              </div>
-              {sortOrder === 'volumeAsc' ? (
-                <i className="fa-solid fa-sort-up text-white1"></i>
-              ) : sortOrder === 'volumeDesc' ? (
-                <i className="fa-solid fa-sort-down text-white1"></i>
-              ) : (
-                <i className="fa-solid fa-sort text-grey1"></i>
-              )}
-            </Button>
+                <div
+                  className={
+                    sortOrder.includes('volume') ? 'text-white1' : 'text-grey1'
+                  }
+                >
+                  Volume
+                </div>
+                {sortOrder === 'volumeAsc' ? (
+                  <i className="fa-solid fa-sort-up text-white1"></i>
+                ) : sortOrder === 'volumeDesc' ? (
+                  <i className="fa-solid fa-sort-down text-white1"></i>
+                ) : (
+                  <i className="fa-solid fa-sort text-grey1"></i>
+                )}
+              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => toggleSortOrder('price')}
+                className="flex justify-center items-center"
+              >
+                <div
+                  className={
+                    sortOrder.includes('price') ? 'text-white1' : 'text-grey1'
+                  }
+                >
+                  Price
+                </div>
+                {sortOrder === 'priceAsc' ? (
+                  <i className="fa-solid fa-sort-up text-white1"></i>
+                ) : sortOrder === 'priceDesc' ? (
+                  <i className="fa-solid fa-sort-down text-white1"></i>
+                ) : (
+                  <i className="fa-solid fa-sort text-grey1"></i>
+                )}
+              </Button>
+              <div className="text-grey1">/</div>
+              <Button
+                onClick={() => toggleSortOrder('change')}
+                className="flex justify-center items-center"
+              >
+                <div
+                  className={
+                    sortOrder.includes('change') ? 'text-white1' : 'text-grey1'
+                  }
+                >
+                  Change
+                </div>
+                {sortOrder === 'changeAsc' ? (
+                  <i className="fa-solid fa-sort-up text-white1"></i>
+                ) : sortOrder === 'changeDesc' ? (
+                  <i className="fa-solid fa-sort-down text-white1"></i>
+                ) : (
+                  <i className="fa-solid fa-sort text-grey1"></i>
+                )}
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={() => toggleSortOrder('price')}
-              className="flex justify-center items-center"
-            >
-              <div
-                className={
-                  sortOrder.includes('price') ? 'text-white1' : 'text-grey1'
-                }
-              >
-                Price
-              </div>
-              {sortOrder === 'priceAsc' ? (
-                <i className="fa-solid fa-sort-up text-white1"></i>
-              ) : sortOrder === 'priceDesc' ? (
-                <i className="fa-solid fa-sort-down text-white1"></i>
-              ) : (
-                <i className="fa-solid fa-sort text-grey1"></i>
-              )}
-            </Button>
-            <div className="text-grey1">/</div>
-            <Button
-              onClick={() => toggleSortOrder('change')}
-              className="flex justify-center items-center"
-            >
-              <div
-                className={
-                  sortOrder.includes('change') ? 'text-white1' : 'text-grey1'
-                }
-              >
-                Change
-              </div>
-              {sortOrder === 'changeAsc' ? (
-                <i className="fa-solid fa-sort-up text-white1"></i>
-              ) : sortOrder === 'changeDesc' ? (
-                <i className="fa-solid fa-sort-down text-white1"></i>
-              ) : (
-                <i className="fa-solid fa-sort text-grey1"></i>
-              )}
-            </Button>
-          </div>
-        </div>
+        )}
         <div
-          className={`h-250 md:h-[calc(100vh-265px)] overflow-y-auto text-[12px] md:text-[14px] ${!coins?.length && 'flex justify-center items-center'}`}
+          className={`overflow-y-auto text-[12px] md:text-[14px] ${!coins?.length ? 'flex justify-center items-center min-h-215 h-290 md:h-[calc(100vh-220px)]' : 'min-h-170 h-250 md:h-[calc(100vh-265px)]'}`}
         >
           {coinData ? (
             searchedCoins?.length === 0 ? (
@@ -268,7 +270,7 @@ const MarketPricesCard = () => {
             ) : selectedTab === 'favorite' && !coins?.length ? (
               <p>You don&apos;t have any favorite coins.</p>
             ) : (
-              <CoinTable
+              <MarketPrices
                 coins={coins}
                 favoriteCoins={favoriteCoins}
                 toggleFavorite={toggleFavorite}

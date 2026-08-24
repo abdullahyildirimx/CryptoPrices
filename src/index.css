@@ -31,10 +31,6 @@ button {
   cursor: pointer;
 }
 
-:focus-visible {
-  @apply outline-blue-500 outline -outline-offset-1;
-}
-
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
