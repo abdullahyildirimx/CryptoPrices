@@ -9,6 +9,7 @@ const ChartModal = ({ isOpen, onOpenChange, selectedCoin }) => {
     币安人生: 'BIANRENSHENG',
     我踏马来了: 'WOTAMALAILIAO',
     龙虾: 'LONGXIA',
+    牛来: 'NIULAI',
   };
 
   const normalizeCoinName = (coin) => {
