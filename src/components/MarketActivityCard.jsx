@@ -139,7 +139,7 @@ const MarketActivityCard = () => {
             </>
           )
         ) : (
-          <div className="w-36 h-36 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
+          <div className="w-36 h-36 border-4 border-grey2 border-t-blue-500 rounded-full animate-spin"></div>
         )}
       </div>
     </div>
