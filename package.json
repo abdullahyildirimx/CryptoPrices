@@ -15,7 +15,7 @@
     "axios": "^1.21.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-redux": "^9.3.0"
+    "react-redux": "^9.3.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
